@@ -39,24 +39,5 @@ export class autosign extends plugin {
       return true
     })
     logger.info(`【自动修改签名】修改签名为：${res.hitokoto}`)
-    let list = await this.getlist()
-    if (!list.msglist) return false
-    let ck = this.getck('qzone.qq.com')
-    let something = list.msglist[0]
-    await fetch(`https://xiaobai.klizi.cn/API/qqgn/ss_delete.php?data=&uin=${Bot.uin}&skey=${ck.skey}&pskey=${ck.p_skey}&tid=${something.tid}`).then(res => res.text()).catch(err => console.log(err))
-  }
-
-  async getck (data) {
-    let cookie = Bot.cookies[data]
-    let ck = cookie.replace(/=/g, `":"`).replace(/;/g, `","`).replace(/ /g, "").trim()
-    ck = ck.substring(0, ck.length - 2)
-    ck = `{"`.concat(ck).concat("}")
-    return JSON.parse(ck)
-  }
-  async getlist() {
-    let ck = this.getck('qzone.qq.com')
-    let url = `https://xiaobai.klizi.cn/API/qqgn/ss_list.php?data=json&uin=${Bot.uin}&skey=${ck.skey}&pskey=${ck.p_skey}&qq=${Bot.uin}`
-    let list = await fetch(url).then(res => res.json()).catch(err => console.log(err))
-    if (!list) { return false } else { return list }
   }
 }
