@@ -1,4 +1,5 @@
 # 自动化插件Auto-plugin
+# 注意！该插件尚未完工，在主动登载到[Yunzai-Bot插件索引](https://gitee.com/Hikari666/Yunzai-Bot-plugins-index) 之前，无法保证最终效果
 ### 介绍
 Yunzai-Bot V3 的插件包，主要提供各式各样的定时任务功能
 
