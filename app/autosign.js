@@ -1,6 +1,6 @@
-import plugin from '../../lib/plugins/plugin.js'
+import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
-import Cfg from "../yenai-plugin/model/Config.js";
+import setting from "../model/setting.js";
 
 export class autosign extends plugin {
   constructor () {
@@ -22,8 +22,9 @@ export class autosign extends plugin {
         }
       ]
     })
+    this.appconfig = setting.getConfig('autosign')
     this.task = {
-      cron: '10 0/5 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * ? ',
+      cron: this.appconfig.cron,
       name: '自动一言签名',
       fnc: () => this.autosign()
     }
