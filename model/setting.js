@@ -24,6 +24,19 @@ class Setting {
     return { ...this.getdefSet(app), ...this.getYaml(app, 'config') }
   }
 
+  setConfig (app, Object) {
+    return this.setYaml(app, 'config', { ...this.getdefSet(app), ...Object})
+  }
+
+  setYaml (app, type, Object){
+    let file = this.getFilePath(app, type)
+    try {
+      fs.writeFileSync(file, YAML.stringify(Object),'utf8')
+    } catch (error) {
+      logger.error(`[${app}] 写入失败 ${error}`)
+      return false
+    }
+  }
 
   getYaml (app, type) {
     let file = this.getFilePath(app, type)

@@ -6,5 +6,5 @@ import setting from "../setting.js";
 export function NameCardContent() {
   let config = setting.getConfig('autoGroupName')
   let Memory = ((1 - os.freemem() / os.totalmem()) * 100).toFixed(config.fix).toString()
-  return `当前系统活力${Memory}`
+  return `当前系统活力${Memory}%`
 }
