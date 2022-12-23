@@ -10,7 +10,7 @@ export class autoDelAt extends plugin {
       name: '恶意at',
       dsc: '自动踢掉恶意at全体成员的成员',
       event: 'message.group',
-      priority: 416,
+      priority: 464,
       rule: [rule]
     })
     this.islog = false

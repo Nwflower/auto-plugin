@@ -1,0 +1,22 @@
+# 功能是否启用 TRUE-启用 FALSE-禁用
+enable: false
+
+# 插件定时表达式
+cron: "40 * * * * ? "
+
+# 机器人名字，留空为昵称
+nickname: ''
+
+# 不需要更改的群聊群号
+notGroup:
+  - 123456
+
+# 激活的模块,可到model/autoGroupName文件夹下查看对应文件名
+# 可选择多个名字，会随机展示
+active:
+  - "MemoryPercent"
+  - "SystemTime"
+  - "GenshinVersionDay"
+
+# 内存模块配置：保留小数位数
+fix: 2

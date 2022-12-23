@@ -21,7 +21,7 @@ export class autoUpdate extends plugin {
       name: '自动全部更新',
       dsc: '自动更新全部插件并重启',
       event: 'notice',
-      priority: 9999
+      priority: 4643
     })
     this.typeName = 'Yunzai-Bot'
     this.key = 'Yz:autoUpdate'

@@ -2,7 +2,6 @@ import YAML from 'yaml'
 import chokidar from 'chokidar'
 import fs from 'node:fs'
 
-/** 配置文件 */
 class Setting {
   constructor () {
     /** 默认设置 */
@@ -17,23 +16,15 @@ class Setting {
     this.watcher = { config: {}, def: {} }
   }
 
-  /**
-   * @param app  功能
-   */
   getdefSet (app) {
     return this.getYaml(app, 'def')
   }
 
-  /** 用户配置 */
   getConfig (app) {
     return { ...this.getdefSet(app), ...this.getYaml(app, 'config') }
   }
 
-  /**
-   * 获取配置yaml
-   * @param app 功能
-   * @param type 默认跑配置-defSet，用户配置-config
-   */
+
   getYaml (app, type) {
     let file = this.getFilePath(app, type)
     if (this[type][app]) return this[type][app]
@@ -62,7 +53,7 @@ class Setting {
     }
   }
 
-  /** 监听配置文件 */
+
   watch (file, app, type = 'def') {
     if (this.watcher[type][app]) return
 
