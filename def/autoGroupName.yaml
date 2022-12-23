@@ -14,8 +14,14 @@ notGroup:
 # 激活的模块,可到model/autoGroupName文件夹下查看对应文件名
 # 可选择多个名字，会随机展示
 active:
+
+  # 内存占用
   - "MemoryPercent"
+
+  # 北京时间
   - "SystemTime"
+
+  # 原神倒计时
   - "GenshinVersionDay"
 
 # 内存模块配置：保留小数位数

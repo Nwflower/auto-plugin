@@ -1,0 +1,7 @@
+*
+!.gitignore
+
+*.js
+!SystemTime.js
+!MemoryPercent.js
+!GenshinVersionDay.js
