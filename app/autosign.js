@@ -31,6 +31,7 @@ export class autosign extends plugin {
   }
 
   async autosign () {
+    if (!this.appconfig.enable) {return true}
     let url = 'https://v1.hitokoto.cn/'
     let res = await fetch(url).catch((err) => logger.error(err))
     if (!res) { return false }
