@@ -66,7 +66,7 @@ export class autoGroupName extends plugin {
     if (!this.appconfig.enable) return false
     if (!this.Suffix) return false
     // logger.info(`${this.appconfig.nickname || Bot.nickname}|${Suffix}`)
-    await Bot.pickGroup(groupID).setCard(Bot.uin, `${this.appconfig.nickname || Bot.nickname}|${Suffix}`)
+    await Bot.pickGroup(groupID).setCard(Bot.uin, `${this.appconfig.nickname || Bot.nickname}｜${Suffix}`)
     return true
   }
 }
