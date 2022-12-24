@@ -2,6 +2,8 @@
 !.gitignore
 
 *.js
+!hitokoto.js
 !SystemTime.js
+!MonthMassage.js
 !MemoryPercent.js
 !GenshinVersionDay.js

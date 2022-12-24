@@ -134,8 +134,10 @@ export class autoGroupName extends plugin {
   async setGroupCard(groupID, Suffix) {
     if (!this.appconfig.enable) return false;
     if (!this.Suffix) return false;
+    let card = `${this.appconfig.nickname || Bot.nickname}｜${Suffix}`
+    if (Bot.pickMember(groupID, Bot.uin).card === card) return
     // logger.info(`${this.appconfig.nickname || Bot.nickname}|${Suffix}`)
-    await Bot.pickGroup(groupID).setCard(Bot.uin, `${this.appconfig.nickname || Bot.nickname}｜${Suffix}`);
+    await Bot.pickGroup(groupID).setCard(Bot.uin, card);
     return true;
   }
 }
