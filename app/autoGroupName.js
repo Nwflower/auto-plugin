@@ -15,7 +15,7 @@ export class autoGroupName extends plugin {
       priority: 4644,
       rule: [{
         reg: "^#*更新群名片",
-        fnc: "setGroupCard",
+        fnc: "CardTask",
       }, {
         reg: "^(#|自动化)*切换(群)?(名片|昵称)(样式|格式|后缀)",
         fnc: "tabGroupCard",
@@ -66,21 +66,18 @@ export class autoGroupName extends plugin {
     let activeModels = this.appconfig.active;
     if (!Array.isArray(activeModels)) activeModels = [activeModels];
     let activePath = path.join(pluginRoot, `model/autoGroupName/${await lodash.sample(activeModels)}.js`);
-    // 判断文件是否存在
     if (fs.existsSync(activePath)) {
       try {
-        // 判断是否是windows系统
-        if (os.platform() === "win32") {
-          activePath = "file:///" + activePath;
-        }
+        if (os.platform() === "win32") activePath = "file:///" + activePath;
         let { NameCardContent } = await import(activePath);
         if (typeof NameCardContent === "function") {
           this.Suffix = await NameCardContent();
+          return this.Suffix
         } else {
           logger.error(`【自动化插件】文件${activePath}中NameCardContent必须要定义成一个函数方法！`);
         }
       } catch (e) {
-        logger.error(`【自动化插件】文件${activePath}载入失败，群名片自动更新功能可能无法使用\n${e}`);
+        logger.error(`【自动化插件】文件${activePath}载入失败\n${e}`);
       }
     } else {
       logger.error(`【自动化插件】文件${activePath}不存在！`);
@@ -88,11 +85,12 @@ export class autoGroupName extends plugin {
   }
 
   async CardTask() {
+    if (!this.appconfig.enable) return false;
     let taskGroup = this.taskGroup;
     if (taskGroup.length) {
       await this.getSuffixFun();
       for (let groupId of taskGroup) {
-        if (!await this.setGroupCard(groupId, this.Suffix, true)) {
+        if (!await this.setGroupCard(groupId, this.Suffix)) {
           return false;
         }
       }
@@ -125,18 +123,15 @@ export class autoGroupName extends plugin {
       }
     }
     await this.getSuffixFun();
-    let Suffix = this.Suffix;
-    await this.reply(`切换成功，群名片模块已切换为${this.appconfig.active}\n示例：${this.appconfig.nickname || Bot.nickname}｜${Suffix}`);
+    await this.reply(`切换成功，群名片模块已切换为${this.appconfig.active}\n示例：${this.appconfig.nickname || Bot.nickname}｜${this.Suffix}`);
     setting.setConfig("autoGroupName", this.appconfig);
     return true;
   }
 
   async setGroupCard(groupID, Suffix) {
-    if (!this.appconfig.enable) return false;
-    if (!this.Suffix) return false;
+    if (!Suffix) return false;
     let card = `${this.appconfig.nickname || Bot.nickname}｜${Suffix}`
-    if (Bot.pickMember(groupID, Bot.uin).card === card) return
-    // logger.info(`${this.appconfig.nickname || Bot.nickname}|${Suffix}`)
+    if (Bot.pickMember(groupID, Bot.uin).card === card) return false
     await Bot.pickGroup(groupID).setCard(Bot.uin, card);
     return true;
   }

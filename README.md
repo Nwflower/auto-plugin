@@ -36,6 +36,7 @@ Auto-plugin是适用于Yunzai-Bot V3 的一个小型插件包，主要提供各�
 |      MonthMassage |   月消息数   | 本月已发送30000条消息        |
 |        SystemTime |   北京时间   | 现在是北京时间09:41          |
 |           OldTime | 长安十二时辰 | 现在是长安午正三刻           |
+|         HotSearch | 微博热搜第一 | 热搜第一：阿根廷             |
 |           More... |   更多模块   | 请你开发                     |
 
 模块路径：auto-plugin\model\autoGroupName，可以根据六个示例自行开发新模块

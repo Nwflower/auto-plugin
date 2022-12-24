@@ -3,6 +3,7 @@
 
 *.js
 !hitokoto.js
+!HotSearch.js
 !SystemTime.js
 !MonthMassage.js
 !MemoryPercent.js
