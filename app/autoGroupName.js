@@ -100,6 +100,8 @@ export class autoGroupName extends plugin {
 
   async tabGroupCard() {
     if (!this.e.isMaster) return false;
+
+    this.appconfig = setting.getConfig("autoGroupName");
     let models = fs.readdirSync(path.join(pluginRoot, `model/autoGroupName`)).filter(file => file.endsWith(".js"));
 
     if (Array.isArray(this.appconfig.active)) this.appconfig.active = await this.fileExtName(models[0]);
