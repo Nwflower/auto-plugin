@@ -4,6 +4,9 @@
 
 export function NameCardContent() {
   let now = new Date()
-  let nowTime = `${now.getHours()}:${now.getMinutes()}`
-  return `现在是北京时间${nowTime}`
+  let hour = now.getHours()
+  let minutes = now.getMinutes()
+  if (hour < 10) { hour = `0${hour.toString()}` }
+  if (minutes < 10) { minutes = `0${minutes.toString()}` }
+  return `现在是北京时间${hour}:${minutes}`
 }
