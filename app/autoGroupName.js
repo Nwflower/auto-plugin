@@ -21,13 +21,20 @@ export class autoGroupName extends plugin {
         fnc: "tabGroupCard",
       }],
     });
-    this.appconfig = setting.getConfig("autoGroupName");
     this.task = {
       cron: this.appconfig.cron,
       name: "自动群名片",
       fnc: () => this.CardTask(),
     };
     Object.defineProperty(this.task, "log", { get: () => false });
+  }
+
+  get appconfig() {
+    return setting.getConfig("autoGroupName")
+  }
+
+  set appconfig(setter) {
+    setting.setConfig("autoGroupName", setter);
   }
 
   get taskGroup() {
@@ -62,9 +69,8 @@ export class autoGroupName extends plugin {
     }
   }
 
-  async getSuffixFun() {
-    this.appconfig = setting.getConfig("autoGroupName");
-    let activeModels = this.appconfig.active;
+  async getSuffixFun(config = this.appconfig) {
+    let activeModels = config.active;
     if (!Array.isArray(activeModels)) activeModels = [activeModels];
     let activePath = path.join(pluginRoot, `model/autoGroupName/${await lodash.sample(activeModels)}.js`);
     if (fs.existsSync(activePath)) {
@@ -72,8 +78,7 @@ export class autoGroupName extends plugin {
         if (os.platform() === "win32") activePath = "file:///" + activePath;
         let { NameCardContent } = await import(activePath);
         if (typeof NameCardContent === "function") {
-          this.Suffix = await NameCardContent();
-          return this.Suffix
+          return await NameCardContent()
         } else {
           logger.error(`【自动化插件】文件${activePath}中NameCardContent必须要定义成一个函数方法！`);
         }
@@ -89,9 +94,9 @@ export class autoGroupName extends plugin {
     if (!this.appconfig.enable) return false;
     let taskGroup = this.taskGroup;
     if (taskGroup.length) {
-      await this.getSuffixFun();
+      let Suffix = await this.getSuffixFun();
       for (let groupId of taskGroup) {
-        if (!await this.setGroupCard(groupId, this.Suffix)) {
+        if (!await this.setGroupCard(groupId, Suffix)) {
           return false;
         }
       }
@@ -104,29 +109,29 @@ export class autoGroupName extends plugin {
 
     let models = fs.readdirSync(path.join(pluginRoot, `model/autoGroupName`)).filter(file => file.endsWith(".js"));
 
-    if (Array.isArray(this.appconfig.active)) this.appconfig.active = await this.fileExtName(models[0]);
+    let config = this.appconfig
+    if (Array.isArray(config.active)) config.active = await this.fileExtName(models[0]);
     else {
       for (let index in models) {
-        if (this.appconfig.active === await this.fileExtName(models[index])) {
+        if (config.active === await this.fileExtName(models[index])) {
           let newindex = Number(Number(index) + 1);
           if (newindex >= models.length) {
             let appdef = setting.getdefSet("autoGroupName");
-            this.appconfig.active = appdef.active;
+            config.active = appdef.active;
             await this.reply(`切换成功，群名片模块已切换为默认随机`);
-            setting.setConfig("autoGroupName", this.appconfig);
+            this.appconfig = config
             return true;
           } else {
             let Tmpactive = await this.fileExtName(models[newindex])
             if (!fs.existsSync(path.join(pluginRoot, `model/autoGroupName/${Tmpactive}.js`))) { Tmpactive = await this.fileExtName(models[0]);}
-            this.appconfig.active = Tmpactive
+            config.active = Tmpactive
           }
           break;
         }
       }
     }
-    await this.getSuffixFun();
-    await this.reply(`切换成功，群名片模块已切换为${this.appconfig.active}\n示例：${this.appconfig.nickname || Bot.nickname}｜${this.Suffix}`);
-    setting.setConfig("autoGroupName", this.appconfig);
+    this.appconfig = config
+    await this.reply(`切换成功，群名片模块已切换为${config.active}\n示例：${config.nickname || Bot.nickname}｜${await this.getSuffixFun(config)}`);
     return true;
   }
 
