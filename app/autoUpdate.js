@@ -3,6 +3,7 @@ import { createRequire } from 'module'
 import lodash from 'lodash'
 import fs from 'node:fs'
 import common from '../../../lib/common/common.js'
+import setting from "../model/setting.js";
 
 const require = createRequire(import.meta.url)
 const { exec, execSync } = require('child_process')
@@ -30,6 +31,7 @@ export class autoUpdate extends plugin {
       name: '自动更新全部插件：凌晨2-4点之间某一刻自动执行',
       fnc: () => this.updataTask()
     }
+    this.appconfig = setting.getConfig("autoUpdate");
   }
 
   async init () {
@@ -38,7 +40,12 @@ export class autoUpdate extends plugin {
     redis.del(this.key)
   }
 
-  async updataTask () { setTimeout(() => this.updateAll(), Math.floor(Math.random() * 7199999 + 1)) }
+  async updataTask () {
+    if (!this.appconfig.enable) {
+      return true;
+    }
+    setTimeout(() => this.updateAll(), Math.floor(Math.random() * 7199999 + 1))
+  }
 
   async reply (msg = '', quote = false, data = { at: false }) {
     if (quote || data.at) { logger.error(msg) } else { logger.info(msg) }

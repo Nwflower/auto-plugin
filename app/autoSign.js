@@ -18,19 +18,19 @@ export class autoSign extends plugin {
           /** 命令正则匹配 */
           reg: "^#自动签名$",
           /** 执行方法 */
-          fnc: "autosign",
+          fnc: "autoSign",
         },
       ],
     });
-    this.appconfig = setting.getConfig("autosign");
+    this.appconfig = setting.getConfig("autoSign");
     this.task = {
       cron: this.appconfig.cron,
       name: "自动一言签名",
-      fnc: () => this.autosign(),
+      fnc: () => this.autoSign(),
     };
   }
 
-  async autosign() {
+  async autoSign() {
     if (!this.appconfig.enable) {
       return true;
     }
