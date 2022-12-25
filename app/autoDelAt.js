@@ -26,7 +26,7 @@ export class autoDelAt extends plugin {
   }
 
   async kick () {
-    if(this.e.member.is_admin && this.e.member.is_owner) return false
+    if(this.e.member.is_admin || this.e.member.is_owner) return false
     this.islog = true
     await this.reply(`发现QQ${this.e.user_id}恶意at，已经将其移出群`)
     await this.e.group.kickMember(this.e.user_id)
