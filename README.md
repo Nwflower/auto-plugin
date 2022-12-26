@@ -37,9 +37,9 @@ Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务
 |         HotSearch | 微博热搜第一 | 热搜第一：阿根廷             |
 |           More... |   更多模块   | 请你开发                     |
 
-模块路径：auto-plugin\model\autoGroupName，可以根据七个示例自行开发新模块
+模块路径：auto-plugin\model\autoGroupName，可以根据七个示例自行开发新模块。
 
-快速切换口令：#切换名片样式
+切换口令：#切换名片样式、#切换名片样式1,3,5
 
 ### 常见问题
 

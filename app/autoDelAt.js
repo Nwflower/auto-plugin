@@ -1,4 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
+import setting from "../model/setting.js";
 
 export class autoDelAt extends plugin {
   constructor () {
@@ -15,6 +16,7 @@ export class autoDelAt extends plugin {
     })
     this.islog = false
     Object.defineProperty(rule, 'log', { get: () => this.islog })
+    this.appconfig = setting.getConfig("autoDelAt");
   }
 
   async getGroupSize () {
@@ -32,6 +34,9 @@ export class autoDelAt extends plugin {
   }
 
   async atListen (e) {
+    if (!this.appconfig.enable) {
+      return true;
+    }
     if (!Bot.pickGroup(this.e.group_id).is_owner && !Bot.pickGroup(this.e.group_id).is_admin) {
       // do nth
     } else {

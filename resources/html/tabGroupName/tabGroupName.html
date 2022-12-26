@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <link rel="shortcut icon" href="#"/>
+    <link rel="stylesheet" type="text/css" href="{{pluResPath}}html/tabGroupName/tabGroupName.css"/>
+    <link rel="preload" href="{{resPath}}/font/tttgbnumber.ttf" as="font">
+    {{@headStyle}}
+  </head>
+  <body id="container" class="body_box">
+    <div class="container">
+      <div class="info_box">
+        <div class="head_box">
+          <div class="id_text">
+            QQ: {{uin}}
+          </div>
+          <div class="lable">共{{models.length}}种后缀样式</div>
+        </div>
+        <div class="data_box">
+          <div class="tab-lable">名片后缀列表</div>
+          <div class="model_list">
+            <div class="avatar th">
+              <div class="index">#</div>
+              <div class="model-name">模块名</div>
+              <div class="example">示例</div>
+            </div>
+            {{each models model idx}}
+            <div class="avatar {{model.able}}">
+              <div class="index">{{idx+1}}</div>
+              <div class="model-name">{{model.pureModel}}</div>
+              <div class="example">{{model.example}}</div>
+            </div>
+            {{/each}}
+          </div>
+          <p class="notice">{{Notice}}</p>
+        </div>
+        <div class="logo">Created By Yunzai-Bot & Auto-Plugin</div>
+      </div>
+    </div>
+  </body>
+</html>

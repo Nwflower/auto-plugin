@@ -2,9 +2,11 @@ import plugin from "../../../lib/plugins/plugin.js";
 import os from "os";
 import lodash from "lodash";
 import setting from "../model/setting.js";
-import { pluginRoot } from "../model/path.js";
+import { _path, pluginResources, pluginRoot } from "../model/path.js";
 import path from "path";
 import fs from "fs";
+import puppeteer from "../../../lib/puppeteer/puppeteer.js";
+import { headStyle } from "../model/base.js";
 
 export class autoGroupName extends plugin {
   constructor() {
@@ -17,7 +19,7 @@ export class autoGroupName extends plugin {
         reg: "^#*更新群名片",
         fnc: "CardTask",
       }, {
-        reg: "^(#|自动化)*切换(群)?(名片|昵称)(样式|格式|后缀)",
+        reg: "^(#|自动化)*(切换|更改|设置)(群)?(名片|昵称)(样式|格式|后缀).*",
         fnc: "tabGroupCard",
       }],
     });
@@ -110,29 +112,64 @@ export class autoGroupName extends plugin {
     let models = fs.readdirSync(path.join(pluginRoot, `model/autoGroupName`)).filter(file => file.endsWith(".js"));
 
     let config = this.appconfig
-    if (Array.isArray(config.active)) config.active = await this.fileExtName(models[0]);
-    else {
-      for (let index in models) {
-        if (config.active === await this.fileExtName(models[index])) {
-          let newindex = Number(Number(index) + 1);
-          if (newindex >= models.length) {
-            let appdef = setting.getdefSet("autoGroupName");
-            config.active = appdef.active;
-            await this.reply(`切换成功，群名片模块已切换为默认随机`);
-            this.appconfig = config
-            return true;
-          } else {
-            let Tmpactive = await this.fileExtName(models[newindex])
-            if (!fs.existsSync(path.join(pluginRoot, `model/autoGroupName/${Tmpactive}.js`))) { Tmpactive = await this.fileExtName(models[0]);}
-            config.active = Tmpactive
+
+    let msg = this.e.msg.replace(/^(#|自动化)*(切换|更改|设置)(群)?(名片|昵称)(样式|格式|后缀)/, '').replace(/，/g,',').replace(/[^(\d|,)]*/g,'').trim()
+    let tmpResult = msg.split(',')
+    let result = []
+    for (let num of tmpResult) {
+      if (num>=1 && num<=models.length) result.push(Number(num))
+    }
+    if (!result.length) {
+      if (Array.isArray(config.active)) {
+        config.active = await this.fileExtName(models[0]);
+      } else {
+        for (let index in models) {
+          if (config.active === await this.fileExtName(models[index])) {
+            let newindex = Number(Number(index) + 1);
+            if (newindex >= models.length) newindex = 0
+            config.active = await this.fileExtName(models[newindex])
+            break;
           }
-          break;
+        }
+      }
+    }else {
+      config.active = []
+      for (let index in models) {
+        if (result.includes(Number(index) + 1)) {
+          config.active.push(await this.fileExtName(models[Number(index)]))
         }
       }
     }
+
     this.appconfig = config
-    await this.reply(`切换成功，群名片模块已切换为${config.active}\n示例：${config.nickname || Bot.nickname}｜${await this.getSuffixFun(config)}`);
-    return true;
+    return await this.sendTabImage(config)
+  }
+
+  async sendTabImage (config = this.appconfig){
+
+    let models = fs.readdirSync(path.join(pluginRoot, `model/autoGroupName`)).filter(file => file.endsWith(".js"));
+    let TmpModels = []
+    for (let model of models) {
+      let pureModel = await this.fileExtName(model)
+      let example = `${config.nickname || Bot.nickname}｜${await this.getSuffixFun({ active: pureModel })}`
+      TmpModels.push({
+        pureModel,
+        example,
+        able: (config.active === pureModel || config.active.includes(pureModel))
+      })
+    }
+    let base64 = await puppeteer.screenshot('auto-plugin', {
+      saveId: `autoGroupName`,
+      tplFile: `${pluginResources}/html/tabGroupName/tabGroupName.html`,
+      headStyle,
+      pluResPath: `${pluginResources}/`,
+      imgType: 'png',
+      uin:Bot.uin,
+      models: TmpModels,
+      Notice: '使用#切换名片样式+序号可直接更改，多个序号请用逗号隔开'
+    })
+    await this.reply(base64)
+    return true
   }
 
   async setGroupCard(groupID, Suffix) {
