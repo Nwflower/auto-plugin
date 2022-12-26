@@ -21,7 +21,6 @@ export class autoDelAt extends plugin {
     let MemberMap = await this.e.group.getMemberMap()
     let allmember = []
     MemberMap.forEach((v, k) => { allmember.push(k) })
-    logger.info(allmember.length)
     return allmember.length
   }
 
