@@ -21,6 +21,9 @@ export class autoGroupName extends plugin {
       }, {
         reg: "^(#|自动化)*(切换|更改|设置)(群)?(名片|昵称)(样式|格式|后缀).*",
         fnc: "tabGroupCard",
+      }, {
+        reg: "^(#|自动化)*(群)?(名片|昵称)(样式|格式|后缀|列表|一览|统计)",
+        fnc: "sendTabImage",
       }],
     });
     this.task = {
@@ -142,16 +145,19 @@ export class autoGroupName extends plugin {
     }
 
     this.appconfig = config
-    return await this.sendTabImage(config)
+    await this.sendTabImage(config)
+    return true
   }
 
-  async sendTabImage (config = this.appconfig){
+  async sendTabImage (config){
 
+    if (config === undefined) config = this.appconfig
     let models = fs.readdirSync(path.join(pluginRoot, `model/autoGroupName`)).filter(file => file.endsWith(".js"));
     let TmpModels = []
     for (let model of models) {
       let pureModel = await this.fileExtName(model)
       let example = `${config.nickname || Bot.nickname}｜${await this.getSuffixFun({ active: pureModel })}`
+      if (!Array.isArray(config.active)) config.active=[config.active]
       TmpModels.push({
         pureModel,
         example,
