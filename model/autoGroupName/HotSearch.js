@@ -9,6 +9,6 @@ export async function NameCardContent() {
   res = await res.json()
   let result = res[0].data
   let hot1 = result[0].word
-  if (hot1.length<=8) hot1 = '热搜第一:' + hot1
+  if (hot1.length<=8) hot1 = '微博热搜:' + hot1
   return hot1
 }
