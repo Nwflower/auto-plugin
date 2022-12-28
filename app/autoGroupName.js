@@ -22,7 +22,7 @@ export class autoGroupName extends plugin {
         reg: "^(#|自动化)*(切换|更改|设置)(群)?(名片|昵称)(样式|格式|后缀).*",
         fnc: "tabGroupCard",
       }, {
-        reg: "^(#|自动化)*(群)?(名片|昵称)(样式|格式|后缀|列表|一览|统计)",
+        reg: "^(#|自动化)*(群)?(名片|昵称)(样式|格式|后缀|列表|一览|统计)+$",
         fnc: "sendTabImage",
       }],
     });

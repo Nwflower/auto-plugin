@@ -2,6 +2,7 @@ import YAML from 'yaml'
 import chokidar from 'chokidar'
 import fs from 'node:fs'
 
+import { _path, pluginResources, pluginRoot } from "./path.js";
 class Setting {
   constructor () {
     /** 默认设置 */
@@ -12,8 +13,35 @@ class Setting {
     this.configPath = './plugins/auto-plugin/config/'
     this.config = {}
 
+    this.dataPath = `${_path}/plugins/auto-plugin/data/`
+    this.data = {}
+
     /** 监听文件 */
     this.watcher = { config: {}, def: {} }
+  }
+
+  getData (path, filename) {
+    path = `${this.dataPath}${path}/`
+    try {
+      if (!fs.existsSync(`${path}${filename}.yaml`)){ return }
+      return YAML.parse(fs.readFileSync(`${path}${filename}.yaml`, 'utf8'))
+    } catch (error) {
+      logger.error(`[${filename}] 读取失败 ${error}`)
+      return false
+    }
+  }
+
+  setData (path, filename, data) {
+    path = `${this.dataPath}${path}/`
+    try {
+      if (!fs.existsSync(path)){
+        fs.mkdirSync(path, { recursive: true });
+      }
+      fs.writeFileSync(`${path}${filename}.yaml`, YAML.stringify(data),'utf8')
+    } catch (error) {
+      logger.error(`[${filename}] 写入失败 ${error}`)
+      return false
+    }
   }
 
   getdefSet (app) {

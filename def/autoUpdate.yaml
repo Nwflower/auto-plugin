@@ -1,2 +1,8 @@
 # 功能是否启用 TRUE-启用 FALSE-禁用
 enable: true
+
+# 日志提醒模式 0-不提醒 1-每天7:58提醒 2-当监听到你今日发送了消息时，把日志发送给你
+log: 1
+
+# 重启后是否拦截机器人上线提醒 （欢迎使用Yunzai-BOT那句话） TRUE-拦截 FALSE-不拦截
+remind: true

@@ -4,6 +4,7 @@ import lodash from 'lodash'
 import fs from 'node:fs'
 import common from '../../../lib/common/common.js'
 import setting from "../model/setting.js";
+import cfg from "../../../lib/config/config.js";
 
 const require = createRequire(import.meta.url)
 const { exec, execSync } = require('child_process')
@@ -22,10 +23,11 @@ export class autoUpdate extends plugin {
       name: '自动全部更新',
       dsc: '自动更新全部插件并重启',
       event: 'notice',
-      priority: 4643
+      priority: 99999,
     })
     this.typeName = 'Yunzai-Bot'
     this.key = 'Yz:autoUpdate'
+    this.alllog = []
     this.task = {
       cron: '0 0 2 * * ?',
       name: '自动更新全部插件：凌晨2-4点之间某一刻自动执行',
@@ -49,6 +51,10 @@ export class autoUpdate extends plugin {
 
   async reply (msg = '', quote = false, data = { at: false }) {
     if (quote || data.at) { logger.error(msg) } else { logger.info(msg) }
+    this.alllog.push({
+      plugin: '',
+      logs:[msg]
+    })
     return true
   }
 
@@ -59,23 +65,29 @@ export class autoUpdate extends plugin {
   }
 
   async runUpdate (plugin = '') {
+    let updataPluginLog = {
+      plugin: plugin || this.typeName,
+      logs:[]
+    }
     let cm = 'git pull --no-rebase'
     let type = '更新'
     if (plugin) { cm = `git -C ./plugins/${plugin}/ pull --no-rebase` }
     this.oldCommitId = await this.getcommitId(plugin)
-    logger.mark(`开始${type}：${this.typeName}`)
+    updataPluginLog.logs.push(`开始${type}：${this.typeName}`)
     let ret = await this.execSync(cm)
     if (ret.error) {
-      logger.mark(`更新失败：${this.typeName}`)
+      updataPluginLog.logs.push(`更新失败：${this.typeName}`)
       await this.gitErr(ret.error, ret.stdout)
       return false
     }
     let time = await this.getTime(plugin)
-    if (/Already up|已经是最新/g.test(ret.stdout)) { await this.reply(`${this.typeName}已经是最新`) } else {
-      this.isUp = await this.reply(`${this.typeName}更新成功`)
-      await this.reply(await this.getLog(plugin))
+    if (/Already up|已经是最新/g.test(ret.stdout)) { updataPluginLog.logs.push(`${this.typeName}已经是最新`) } else {
+      this.isUp = true
+      updataPluginLog.logs.push(`${this.typeName}更新成功`)
+      updataPluginLog.logs.push(await this.getLog(plugin))
     }
-    logger.mark(`最后更新时间：${time}`)
+    updataPluginLog.logs.push(`最后更新时间：${time}`)
+    this.alllog.push(updataPluginLog)
     return true
   }
 
@@ -126,8 +138,16 @@ export class autoUpdate extends plugin {
       await this.runUpdate(plu)
     }
     if (this.isUp) {
-      await this.reply('即将执行重启，以应用更新')
+      logger.info('即将执行重启，以应用更新')
+      await this.saveLog()
       setTimeout(() => this.restart(), 2000)
+    } else {
+      this.alllog = ['所有插件已是最新版，自动化插件没有为你更新任何插件']
+      await this.saveLog()
+    }
+    if (this.appconfig.log === 2) {
+      let key = `Yz:auto-plugin:Update:${Bot.uin}`
+      redis.set(key, '1', { EX: 72000 })
     }
   }
 
@@ -135,7 +155,7 @@ export class autoUpdate extends plugin {
     let cm = 'git log  -20 --oneline --pretty=format:"%h||[%cd]  %s" --date=format:"%m-%d %H:%M"'
     if (plugin) { cm = `cd ./plugins/${plugin}/ && ${cm}` }
     let logAll
-    try { logAll = execSync(cm, { encoding: 'utf-8' }) } catch (error) { logger.error(error.toString()) }
+    try { logAll = execSync(cm, { encoding: 'utf-8' }) } catch (error) { this.reply(error.toString(), true) }
     if (!logAll) return false
     logAll = logAll.split('\n')
     let log = []
@@ -146,10 +166,9 @@ export class autoUpdate extends plugin {
       log.push(str[1])
     }
     let line = log.length
-    log = log.join('\n\n')
+    log = log.join('\n')
     if (log.length <= 0) return ''
-    logger.info(`${plugin || 'Yunzai-Bot'}更新日志，共${line}条`)
-    logger.info(log)
+    logger.info(`${plugin || 'Yunzai-Bot'}更新日志，共${line}条\n${log}`)
     return log
   }
 
@@ -163,11 +182,11 @@ export class autoUpdate extends plugin {
       exec(cm, { windowsHide: true }, (error, stdout, stderr) => {
         if (error) {
           redis.del(this.key)
-          logger.error(`重启失败\n${error.stack}`)
+          this.reply(`重启失败\n${error.stack}`, true)
         } else if (stdout) {
-          logger.mark('重启成功，运行已由前台转为后台')
-          logger.mark(`查看日志请用命令：${npm} run log`)
-          logger.mark(`停止后台运行命令：${npm} stop`)
+          this.reply('重启成功，运行已由前台转为后台')
+          this.reply(`查看日志请用命令：${npm} run log`)
+          this.reply(`停止后台运行命令：${npm} stop`)
           process.exit()
         }
       })
@@ -184,4 +203,9 @@ export class autoUpdate extends plugin {
   }
 
   async execSync (cmd) { return new Promise((resolve, reject) => { exec(cmd, { windowsHide: true }, (error, stdout, stderr) => { resolve({ error, stdout, stderr }) }) }) }
+
+  async saveLog() {
+    setting.setData(`autoUpdata`,`log-${(new Date().toLocaleDateString()).replace(/\//g,'-')}`, this.alllog)
+    this.alllog = []
+  }
 }
