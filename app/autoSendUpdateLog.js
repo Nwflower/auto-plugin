@@ -31,7 +31,7 @@ export class autoSendUpdateLog extends plugin {
     if (!this.appconfig.remind) {return}
 
     let key = `Yz:loginMsg:${Bot.uin}`
-    await redis.del(key)
+    await redis.set(key, '1', { EX: cfg.bot.online_msg_exp })
   }
 
   async listen () {
