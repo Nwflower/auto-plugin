@@ -6,18 +6,19 @@ import cfg from "../../../lib/config/config.js";
 
 export class autoSendUpdateLog extends plugin {
   constructor () {
+    let rule = {
+      reg: ".*",
+      fnc: "listen"
+    }
     super({
       name: '自动发送更新日志',
       dsc: '更新全部插件并重启后发送更新日志',
       event: 'message',
-      priority: 888,
+      priority: 9999,
       rule: [{
         reg: "^#?[今昨日天自动]+更新(日志|内容)$",
         fnc: "updataLog",
-      },{
-        reg: ".*",
-        fnc: "listen"
-      }],
+      },rule],
     })
     this.appconfig = setting.getConfig("autoUpdate");
     this.task = {
@@ -25,6 +26,8 @@ export class autoSendUpdateLog extends plugin {
       name: '早晨推送更新消息',
       fnc: () => this.updataTask()
     }
+    this.islog = false
+    Object.defineProperty(rule, 'log', { get: () => this.islog })
   }
 
   async init () {
@@ -35,10 +38,10 @@ export class autoSendUpdateLog extends plugin {
   }
 
   async listen () {
-    if (this.appconfig.log !== 2) {return}
-    if (!this.e.isMaster) {return}
+    if (this.appconfig.log !== 2) {return false}
+    if (!this.e.isMaster) {return false}
     let key = `Yz:auto-plugin:Update:${Bot.uin}`
-    if (!await redis.get(key)) return
+    if (!await redis.get(key)) return false
     await this.sendLog(cfg.masterQQ[0])
     await redis.del(key)
   }
