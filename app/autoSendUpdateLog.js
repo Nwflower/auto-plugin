@@ -63,7 +63,7 @@ export class autoSendUpdateLog extends plugin {
         message = [pluginName, ...pluginLog.logs]
       }
       replyMsg.push({
-        message: message.join('\n'),
+        message: message.length>1?message.join('\n'):message,
         nickname: Bot.nickname,
         user_id: Bot.uin
       })
