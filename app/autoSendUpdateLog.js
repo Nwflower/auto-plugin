@@ -81,7 +81,10 @@ export class autoSendUpdateLog extends plugin {
   }
 
   async updataLog () {
-    if (!this.e.isMaster) await this.reply('你没有权限')
+    if (!this.e.isMaster) {
+      await this.reply('你没有权限')
+      return false
+    }
     await this.sendLog(this.e.user_id)
   }
 
