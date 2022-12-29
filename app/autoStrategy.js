@@ -60,7 +60,7 @@ export class autoStrategy extends plugin {
   async updateStrategy (group) {
     let roleNames = fs.readdirSync(path.join(this.path, group.toString())).filter(file => file.endsWith(".jpg"));
     for (let roleName of roleNames) {
-      this.sfPath = `${this.path}/${group}/${roleNames}`
+      this.sfPath = `${this.path}/${group}/${roleName}`
       await this.getImg(roleName.replace(/.jpg/g,'').trim(), group)
       // 等待时间
       await common.sleep(1000)
