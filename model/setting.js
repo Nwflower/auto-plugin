@@ -1,16 +1,16 @@
 import YAML from 'yaml'
 import chokidar from 'chokidar'
 import fs from 'node:fs'
-
 import { _path, pluginResources, pluginRoot } from "./path.js";
+
 class Setting {
   constructor () {
     /** 默认设置 */
-    this.defPath = './plugins/auto-plugin/def/'
+    this.defPath = `${_path}/plugins/auto-plugin/def/`
     this.def = {}
 
     /** 用户设置 */
-    this.configPath = './plugins/auto-plugin/config/'
+    this.configPath = `${_path}/plugins/auto-plugin/config/`
     this.config = {}
 
     this.dataPath = `${_path}/plugins/auto-plugin/data/`
@@ -18,6 +18,22 @@ class Setting {
 
     /** 监听文件 */
     this.watcher = { config: {}, def: {} }
+  }
+
+  merge () {
+    let sets = {}
+    let appsConfig = fs.readdirSync(this.defPath).filter(file => file.endsWith(".yaml"));
+    for (let appConfig of appsConfig) {
+      let filename = appConfig.replace(/.yaml/g, '').trim()
+      sets[filename] = this.getConfig(filename)
+    }
+    return sets
+  }
+
+  analysis(config) {
+    for (let key of Object.keys(config)){
+      this.setConfig(key, config[key])
+    }
   }
 
   getData (path, filename) {
@@ -101,13 +117,14 @@ class Setting {
     const watcher = chokidar.watch(file)
     watcher.on('change', path => {
       delete this[type][app]
-      logger.mark(`[修改配置文件][${type}][${app}]`)
+      logger.mark(`[自动化插件][修改配置文件][${type}][${app}]`)
       if (this[`change_${app}`]) {
         this[`change_${app}`]()
       }
     })
     this.watcher[type][app] = watcher
   }
+
 }
 
 export default new Setting()

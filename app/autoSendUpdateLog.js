@@ -20,7 +20,6 @@ export class autoSendUpdateLog extends plugin {
         fnc: "updataLog",
       },rule],
     })
-    this.appconfig = setting.getConfig("autoUpdate");
     this.task = {
       cron: '0 58 7 * * ?',
       name: '早晨推送更新消息',
@@ -28,6 +27,10 @@ export class autoSendUpdateLog extends plugin {
     }
     this.islog = false
     Object.defineProperty(rule, 'log', { get: () => this.islog })
+  }
+
+  get appconfig () {
+    return setting.getConfig("autoUpdate");
   }
 
   async init () {

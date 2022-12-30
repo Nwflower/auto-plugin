@@ -20,7 +20,6 @@ export class autoStrategy extends plugin {
         fnc: 'AutoStrategy'
       }]
     })
-    this.appconfig = setting.getConfig("autoStrategy");
     this.set = gsCfg.getConfig('mys', 'set')
     this.path = `${_path}/data/strategy`
 
@@ -42,6 +41,10 @@ export class autoStrategy extends plugin {
       name: "自动更新默认攻略",
       fnc: () => this.UpdateTask(),
     };
+  }
+
+  get appconfig () {
+    return setting.getConfig("autoStrategy");
   }
 
   async AutoStrategy () {

@@ -33,7 +33,10 @@ export class autoUpdate extends plugin {
       name: '自动更新全部插件：凌晨2-4点之间某一刻自动执行',
       fnc: () => this.updataTask()
     }
-    this.appconfig = setting.getConfig("autoUpdate");
+  }
+
+  get appconfig () {
+    return setting.getConfig("autoUpdate");
   }
 
   async init () {
