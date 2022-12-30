@@ -17,7 +17,7 @@ export class autoStrategy extends plugin {
       priority: 499,
       rule: [{
         reg: '^#?更新全部攻略([1-4])?$',
-        fnc: 'strategy'
+        fnc: 'AutoStrategy'
       }]
     })
     this.appconfig = setting.getConfig("autoStrategy");
@@ -44,7 +44,7 @@ export class autoStrategy extends plugin {
     };
   }
 
-  async strategy () {
+  async AutoStrategy () {
     if (!this.e.isMaster) {
       this.reply(`你没有权限`)
       return false
