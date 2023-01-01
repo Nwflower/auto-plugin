@@ -11,7 +11,7 @@ export class autoDelAt extends plugin {
       name: '恶意at',
       dsc: '自动踢掉恶意at全体成员的成员',
       event: 'message.group',
-      priority: 464,
+      priority: 10086,
       rule: [rule]
     })
     this.islog = false
@@ -43,7 +43,7 @@ export class autoDelAt extends plugin {
   }
 
   async atListen (e) {
-    if (!this.appconfig.enable) { return true; }
+    if (!this.appconfig.enable) { return false; }
     if (!Bot.pickGroup(this.e.group_id).is_owner && !Bot.pickGroup(this.e.group_id).is_admin) {
       // BOT无权踢人就不管
     } else {
