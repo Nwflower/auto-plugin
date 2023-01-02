@@ -33,8 +33,8 @@ export class autoDelAt extends plugin {
 
   // 处理踢人事件
   async kick () {
-    // 管理员和群主不踢
-    if(this.e.member.is_admin || this.e.member.is_owner) return false
+    // 管理员、群主和Q群管家不踢
+    if(this.e.member.is_admin || this.e.member.is_owner || this.e.user_id === 2854196310) return false
 
     // 监测成功，向控制台输出日志
     this.islog = true
