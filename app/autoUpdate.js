@@ -4,7 +4,6 @@ import lodash from 'lodash'
 import fs from 'node:fs'
 import common from '../../../lib/common/common.js'
 import setting from "../model/setting.js";
-import cfg from "../../../lib/config/config.js";
 
 const require = createRequire(import.meta.url)
 const { exec, execSync } = require('child_process')
@@ -47,7 +46,7 @@ export class autoUpdate extends plugin {
 
   async updataTask () {
     if (!this.appconfig.enable) {
-      return true;
+      return false;
     }
     setTimeout(() => this.updateAll(), Math.floor(Math.random() * 7199999 + 1))
   }
