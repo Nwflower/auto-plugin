@@ -27,8 +27,9 @@ export class autoUpdate extends plugin {
     this.typeName = 'Yunzai-Bot'
     this.key = 'Yz:autoUpdate'
     this.alllog = []
+    this.defcron = '0 0 2 * * ?'
     this.task = {
-      cron: '0 0 2 * * ?',
+      cron: this.appconfig.cron,
       name: '自动更新全部插件：凌晨2-4点之间某一刻自动执行',
       fnc: () => this.updataTask()
     }
@@ -48,7 +49,12 @@ export class autoUpdate extends plugin {
     if (!this.appconfig.enable) {
       return false;
     }
-    setTimeout(() => this.updateAll(), Math.floor(Math.random() * 7199999 + 1))
+    let ops = 0
+    if (this.appconfig.cron === this.defcron) {
+      // 默认表达式情况下 随机延迟 防止出现扎堆更新
+      ops = 7199999
+    }
+    setTimeout(() => this.updateAll(), Math.floor(Math.random() * ops + 1))
   }
 
   async reply (msg = '', quote = false, data = { at: false }) {
@@ -144,7 +150,6 @@ export class autoUpdate extends plugin {
       await this.saveLog()
       setTimeout(() => this.restart(), 2000)
     } else {
-      this.alllog = ['所有插件已是最新版，自动化插件没有为你更新任何插件']
       await this.saveLog()
     }
     if (this.appconfig.log === 2) {

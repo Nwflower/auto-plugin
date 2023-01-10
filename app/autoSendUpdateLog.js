@@ -55,7 +55,8 @@ export class autoSendUpdateLog extends plugin {
   }
 
   async sendLog (qq = cfg.masterQQ[0]) {
-    let updataLog = await setting.getData(`autoUpdata`, `log-${(new Date().toLocaleDateString()).replace(/\//g, '-')}`)
+    let filename = `log-${(new Date().toLocaleDateString()).replace(/\//g, '-')}`
+    let updataLog = await setting.getData(`autoUpdata`, filename)
     if(!updataLog) return
     let replyMsg = []
     for (let pluginLog of updataLog){

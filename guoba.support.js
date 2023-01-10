@@ -93,6 +93,15 @@ export function supportGuoba () {
           ],
           placeholder: '提醒模式',
         },
+      },{
+        field: 'autoUpdate.cron',
+        label: '自动更新cron',
+        bottomHelpMessage: '插件定时cron表达式 默认表达式每日凌晨2点到4点之前某一刻请求。如果表达式有变更，将在你指定的时间点更新。',
+        component: 'Input',
+        required: true,
+        componentProps: {
+          placeholder: '请输入定时表达式',
+        },
       }],
 
       getConfigData () {
