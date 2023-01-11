@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import { currentVersion } from "../flower-plugin/components/Changelog.js";
 
 logger.info('---------!_!---------')
 logger.info(`自动化插件1.0.1载入成功`)
