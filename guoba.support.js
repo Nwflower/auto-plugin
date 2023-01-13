@@ -63,6 +63,15 @@ export function supportGuoba () {
           placeholder: '请输入群名片前缀',
         },
       },{
+        field: 'autoGroupName.userSuffix',
+        label: '自定义后缀',
+        bottomHelpMessage: '可以留空，默认为前缀',
+        component: 'Input',
+        required: false,
+        componentProps: {
+          placeholder: '请输入群名片前缀',
+        },
+      },{
         field: 'autoSign.cron',
         label: '个签更新cron',
         bottomHelpMessage: '发个签，涨权重；一直发，一直加。',
