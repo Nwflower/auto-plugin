@@ -19,6 +19,9 @@ export class autoGroupName extends plugin {
         reg: "^#*更新群名片",
         fnc: "CardTask",
       }, {
+        reg: "^(#|自动化)*(切换|更改|设置)群?(名片|昵称)(前缀|自定义后缀)(.*)?$",
+        fnc: "setNickname",
+      }, {
         reg: "^(#|自动化)*(切换|更改|设置)(群)?(名片|昵称)(样式|格式|后缀).*",
         fnc: "tabGroupCard",
       }, {
@@ -38,7 +41,7 @@ export class autoGroupName extends plugin {
   get appconfig() { return setting.getConfig("autoGroupName") }
 
   // 口令设置配置
-  set appconfig(setter) { setting.setConfig("autoGroupName", setter);}
+  set appconfig(setter) { setting.setConfig("autoGroupName", setter); }
 
   // 获取需要执行任务的群组
   get taskGroup() {
@@ -97,6 +100,26 @@ export class autoGroupName extends plugin {
     }
   }
 
+  async setNickname() {
+    let match = /^(#|自动化)*(切换|更改|设置)群?(名片|昵称)(前缀|自定义后缀)(.*)?$/.exec(this.e.msg)
+    let type = match[4] // 前缀 | 自定义后缀
+    let str = match[5]
+    if (str == null || str === '') {
+      await this.e.reply(`${type}设置方式为: \n#设置名片${type}[*] \n 请将[*]替换为要设置的${type}`)
+      return
+    }
+    let config = await setting.getConfig('autoGroupName')
+    if(type == '前缀'){
+      config.nickname = str
+    }else if(type == '自定义后缀'){
+      config.userSuffix = str
+    }
+    
+    setting.setConfig('autoGroupName', config)
+    this.appconfig = config
+    await this.e.reply(`${type}已设置为: ` + str)
+  }
+
   // 定时任务
   async CardTask() {
     if (!this.appconfig.enable) return false;
@@ -105,7 +128,7 @@ export class autoGroupName extends plugin {
       let Suffix = await this.getSuffixFun();
       for (let groupId of taskGroup) {
         // 遇到失败情况中止任务执行
-        if (!await this.setGroupCard(groupId, Suffix)) { return false;}
+        if (!await this.setGroupCard(groupId, Suffix)) { return false; }
       }
     }
     return true;
@@ -120,10 +143,10 @@ export class autoGroupName extends plugin {
     let config = this.appconfig
 
     // 对消息进行处理，获取需要更改的模块序号
-    let msg = this.e.msg.replace(/^(#|自动化)*(切换|更改|设置)(群)?(名片|昵称)(样式|格式|后缀)/, '').replace(/，/g,',').replace(/[^(\d|,)]*/g,'').trim()
+    let msg = this.e.msg.replace(/^(#|自动化)*(切换|更改|设置)(群)?(名片|昵称)(样式|格式|后缀)/, '').replace(/，/g, ',').replace(/[^(\d|,)]*/g, '').trim()
     let tmpResult = msg.split(',')
     let result = []
-    for (let num of tmpResult) { if (num>=1 && num<=models.length) result.push(Number(num))}
+    for (let num of tmpResult) { if (num >= 1 && num <= models.length) result.push(Number(num)) }
 
     // 没有模块序号就智能推断，是数组就设为单个模块；是某个模块就向下推
     if (!result.length) {
@@ -154,14 +177,14 @@ export class autoGroupName extends plugin {
   }
 
   // 渲染图片
-  async sendTabImage (config){
+  async sendTabImage(config) {
     if (config === undefined) config = this.appconfig
     let models = fs.readdirSync(path.join(pluginRoot, `model/autoGroupName`)).filter(file => file.endsWith(".js"));
     let TmpModels = []
     for (let model of models) {
       let pureModel = await this.fileExtName(model)
       let example = `${config.nickname || Bot.nickname}｜${await this.getSuffixFun({ active: pureModel })}`
-      if (!Array.isArray(config.active)) config.active=[config.active]
+      if (!Array.isArray(config.active)) config.active = [config.active]
       TmpModels.push({
         pureModel,
         example,
@@ -174,7 +197,7 @@ export class autoGroupName extends plugin {
       headStyle,
       pluResPath: `${pluginResources}/`,
       imgType: 'png',
-      uin:Bot.uin,
+      uin: Bot.uin,
       models: TmpModels,
       Notice: '使用#切换名片样式+序号可直接更改，多个序号请用逗号隔开'
     })
