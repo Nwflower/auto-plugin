@@ -100,6 +100,7 @@ export class autoGroupName extends plugin {
     }
   }
 
+  // 设置自定义前后缀
   async setNickname() {
     let match = /^(#|自动化)*(切换|更改|设置)群?(名片|昵称)(前缀|自定义后缀)(.*)?$/.exec(this.e.msg)
     let type = match[4] // 前缀 | 自定义后缀
@@ -108,14 +109,12 @@ export class autoGroupName extends plugin {
       await this.e.reply(`${type}设置方式为: \n#设置名片${type}[*] \n 请将[*]替换为要设置的${type}`)
       return
     }
-    let config = await setting.getConfig('autoGroupName')
-    if(type == '前缀'){
+    let config = this.appconfig
+    if(type === '前缀'){
       config.nickname = str
-    }else if(type == '自定义后缀'){
+    }else if(type === '自定义后缀'){
       config.userSuffix = str
     }
-    
-    setting.setConfig('autoGroupName', config)
     this.appconfig = config
     await this.e.reply(`${type}已设置为: ` + str)
   }
