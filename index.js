@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import setting from "./model/setting.js";
 
 logger.info('---------!_!---------')
 logger.info(`自动化插件1.0.1载入成功`)
@@ -14,9 +15,12 @@ for (let file of files) {
 
 setTimeout(async function () {
   // 群名片复位
-  Bot.gl.forEach((v, k) => {
-    Bot.pickGroup(k).setCard(Bot.uin, Bot.nickname);
-  });
+  let GroupNameConfig = setting.getConfig("autoGroupName")
+  if (GroupNameConfig.enable){
+    Bot.gl.forEach((v, k) => {
+      Bot.pickGroup(k).setCard(Bot.uin, Bot.nickname);
+    });
+  }
 }, 1000)
 
 
