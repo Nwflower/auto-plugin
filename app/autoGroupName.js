@@ -137,6 +137,10 @@ export class autoGroupName extends plugin {
   async tabGroupCard() {
     if (!this.e.isMaster) return false;
 
+    if (!this.appconfig.enable) {
+      this.reply('该功能没有开启。请使用锅巴插件或文本配置工具修改配置文件后以使用该功能')
+    }
+
     // 获取配置和模块列表
     let models = fs.readdirSync(path.join(pluginRoot, `model/autoGroupName`)).filter(file => file.endsWith(".js"));
     let config = this.appconfig
