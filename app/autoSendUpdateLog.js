@@ -66,6 +66,12 @@ export class autoSendUpdateLog extends plugin {
         pluginName = pluginName + '更新日志如下：'
         message = [pluginName, ...pluginLog.logs]
       }
+      for (let messageIndex in message) {
+        // 二次核查数据是否存在数组
+        if (Array.isArray(message[messageIndex])){
+          message[messageIndex] = message[messageIndex].join('\n')
+        }
+      }
       replyMsg.push({
         message: message.length>1?message.join('\n'):message,
         nickname: Bot.nickname,

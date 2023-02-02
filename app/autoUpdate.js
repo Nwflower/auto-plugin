@@ -59,10 +59,17 @@ export class autoUpdate extends plugin {
 
   async reply (msg = '', quote = false, data = { at: false }) {
     if (quote || data.at) { logger.error(msg) } else { logger.info(msg) }
-    this.alllog.push({
-      plugin: '',
-      logs:[msg]
-    })
+    if (Array.isArray(msg)){
+      this.alllog.push({
+        plugin: '',
+        logs: msg
+      })
+    }else {
+      this.alllog.push({
+        plugin: '',
+        logs:[msg]
+      })
+    }
     return true
   }
 

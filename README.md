@@ -91,6 +91,14 @@ Q：为什么我更新完后攻略更旧了？
 
 A：自动更新攻略不是直接获取最新攻略，其作用和'更新XX攻略'作用一样，只不过是批量处理全部角色而已。因此不能保证获取的一定就是最新攻略。
 
+Q：配置完自动更新后如何查看更新日志？
+
+A：发送`#自动更新日志`或者等待机器人按你配置的时间发送。
+
+Q：还有其他疑问怎么办？
+
+A：你可以[提出issue](https://github.com/Nwflower/auto-plugin/issues)或者对于新功能[发起PR](https://github.com/Nwflower/auto-plugin/pulls)。当然，你也可以使用QQ群组功能反馈。**点击加入[AUTO插件交流群](https://qm.qq.com/cgi-bin/qm/qr?k=XOTZhBWpv68F1sfsMIzKJpg28NBPKJgg&jump_from=webapi&authKey=/XagQoLiUhOi+t67MCkWOSRLlXe+ywVmrkCHdoD3CjwqNzAUYspTrqYklkwb3W0R)**。如果你想要获得开发者的手把手指导，请使用[爱发电](https://afdian.net/a/Nwflower)。
+
 ### 配置项
 
 | 配置项           | 修改路径                                                     |
@@ -112,5 +120,5 @@ A：自动更新攻略不是直接获取最新攻略，其作用和'更新XX攻�
 
 * Yunzai-Bot插件库：[☞Github](https://github.com/yhArcadia/Yunzai-Bot-plugins-index)/[☞Gitee](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
 * Yunzai-Bot（V3）：[☞Github](https://github.com/Le-niao/Yunzai-Bot)/[☞Gitee](https://gitee.com/Le-niao/Yunzai-Bot) 
-* 最后再求个star，你的支持是维护本项目的动力~~
-* 严禁用于任何商业用途和非法行为
+* 如果你觉得本插件还行，不妨给个star，你的支持不会获得额外内容，但会提高本项目的更新积极性
+* 严禁用于任何商业的、非法的、违纪的、不当的、牟利性的行为
