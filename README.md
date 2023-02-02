@@ -8,6 +8,8 @@ Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务
 
 本插件有较多定时任务功能，且多数不会向控制台输出执行日志，建议拥有以下技能：
 
+* <font color='#ef4517'>知道看完本文再提问</font>
+
 * 知道如何利用文本工具修改文件
 
 * 可能需要义务教育要求的阅读理解水平
@@ -77,9 +79,9 @@ Q：我是Linux服务器，有没有更方便修改配置yaml文件的方式？
 
 A：有，请使用锅巴插件。
 
-Q：为什么我的机器人不更新群名片？
+<font color='#ef4517'>Q：为什么我的机器人不更新群名片？</font>
 
-A：你可能没有开启更新开关。该功能默认关闭，运行一遍插件后，请找到配置文件Yunzai-Bot\plugins\auto-plugin\config\autoGroupName.yaml，然后将第一项配置改为true。
+<font color='#0e735f'>A：你可能没有开启更新开关。该功能默认关闭，运行一遍插件后，请找到配置文件Yunzai-Bot\plugins\auto-plugin\config\autoGroupName.yaml，然后将第一项配置改为true。</font>
 
 Q：为什么我的机器人群名片配置样式不生效？
 
