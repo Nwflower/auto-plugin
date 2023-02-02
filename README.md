@@ -1,3 +1,5 @@
+<img decoding="async" align=right src="resources/img/logo_auto.png" width="25%">
+
 # 自动化插件Auto-plugin For Yunzai
 
 Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务功能和自动监听功能

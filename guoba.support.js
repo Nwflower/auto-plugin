@@ -1,5 +1,6 @@
 import setting from "./model/setting.js";
 import lodash from "lodash";
+import { pluginResources } from "./model/path.js";
 
 // 支持锅巴
 export function supportGuoba () {
@@ -14,7 +15,8 @@ export function supportGuoba () {
       isV2: false,
       description: '可能是史上最强大的群名片更新插件。另外还提供了一些自动化小功能。',
       icon: 'iconoir:3d-three-pts-box',
-      iconColor: '#f4c436'
+      iconColor: '#f4c436',
+      iconPath: path.join(pluginResources, 'img/logo_auto.png'),
     },
     // 配置项信息
     configInfo: {
