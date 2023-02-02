@@ -1,6 +1,7 @@
 import setting from "./model/setting.js";
 import lodash from "lodash";
 import { pluginResources } from "./model/path.js";
+import path from 'path'
 
 // 支持锅巴
 export function supportGuoba () {
