@@ -4,10 +4,14 @@ enable: false
 # 插件定时表达式
 cron: "40 * * * * ? "
 
-# 机器人名字，留空为昵称
+# 自定义名片前缀
 nickname: ''
 
+# 自定义名片后缀
 userSuffix: ''
+
+# 自定义内存占用字样
+memoriesTick: '系统活力'
 
 # 不需要更改的群聊群号
 notGroup:

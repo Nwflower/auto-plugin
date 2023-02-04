@@ -64,7 +64,7 @@ Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务
 |          抖音热搜 | 抖音热搜第一 | 白肺的一个明显表现是气紧      |
 |       userSuffix | 用户自定义尾巴 | 真名，肚饿真君              |
 
-模块路径：auto-plugin\model\autoGroupName，可以根据11个示例自行开发新模块。
+模块路径：auto-plugin\model\autoGroupName文件夹，可以根据12个示例自行开发新模块。
 
 样式切换口令：
 
@@ -73,7 +73,7 @@ Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务
 - [ ] #切换名片前缀\<your nickname\>
 - [ ] #切换名片自定义后缀\<your userSuffix\>
 
-### 常见问题
+### 常见问题Q&A
 
 Q：我是Linux服务器，有没有更方便修改配置yaml文件的方式？
 
@@ -81,11 +81,11 @@ A：有，请使用锅巴插件。
 
 <font color='#ef4517'>Q：为什么我的机器人不更新群名片？</font>
 
-<font color='#0e735f'>A：你可能没有开启更新开关。该功能默认关闭，运行一遍插件后，请找到配置文件Yunzai-Bot\plugins\auto-plugin\config\autoGroupName.yaml，然后将第一项配置改为true。</font>
+**<font color='#0e735f'>A：你可能没有开启更新开关。该功能默认关闭，运行一遍插件后，请找到配置文件Yunzai-Bot\plugins\auto-plugin\config\autoGroupName.yaml，然后将第一项配置改为true。</font>**
 
 Q：为什么我的机器人群名片配置样式不生效？
 
-A：你可能安装了其他的同类功能，如较早版本的抽卡插件和js版的系统占用修改名片，或者没有开启开关。
+A：你可能安装了其他的同类功能，开发者Nwflower于2022.8发布了该插件的弱版本，包括较早版本的抽卡插件、js版的系统占用修改名片。其他插件如榴莲插件等也存在该功能，请确保你没有安装含有此功能的其他插件且没有开启对应开关。
 
 Q：为什么自动更新总安排在时间段的某一刻?我想改成其他的定时定点行不行?
 
@@ -120,9 +120,10 @@ A：你可以[提出issue](https://github.com/Nwflower/auto-plugin/issues)或者
 | Atlas原神图鉴         | [Atlas](https://gitee.com/Nwflower/atlas)                 |
 | 自动化插件auto-plugin | [auto-plugin](https://gitee.com/Nwflower/auto-plugin)     |
 
-##### 友情链接
+##### 友情提示
 
 * Yunzai-Bot插件库：[☞Github](https://github.com/yhArcadia/Yunzai-Bot-plugins-index)/[☞Gitee](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index)
 * Yunzai-Bot（V3）：[☞Github](https://github.com/Le-niao/Yunzai-Bot)/[☞Gitee](https://gitee.com/Le-niao/Yunzai-Bot) 
-* 如果你觉得本插件还行，不妨给个star，你的支持不会获得额外内容，但会提高本项目的更新积极性
+* 如果你觉得本插件还行，不妨给个star或者[爱发电](https://afdian.net/a/Nwflower)，你的支持不会获得额外内容，但会提高本项目的更新积极性。
+* 未成年人禁止打赏。
 * 严禁用于任何商业的、非法的、违纪的、不当的、牟利性的行为
