@@ -59,7 +59,7 @@ export function supportGuoba () {
       },{
         field: 'autoGroupName.nickname',
         label: '群名片前缀',
-        bottomHelpMessage: '可以留空，默认为前缀',
+        bottomHelpMessage: '可以留空，默认为昵称',
         component: 'Input',
         required: false,
         componentProps: {
@@ -68,11 +68,20 @@ export function supportGuoba () {
       },{
         field: 'autoGroupName.userSuffix',
         label: '自定义后缀',
-        bottomHelpMessage: '可以留空，默认为前缀',
+        bottomHelpMessage: '',
         component: 'Input',
         required: false,
         componentProps: {
-          placeholder: '请输入群名片前缀',
+          placeholder: '请输入群名片后缀',
+        },
+      },{
+        field: 'autoGroupName.memoriesTick',
+        label: '内存占用字样',
+        bottomHelpMessage: '系统活力',
+        component: 'Input',
+        required: false,
+        componentProps: {
+          placeholder: '请输入你想显示的内存占用字样',
         },
       },{
         field: 'autoSign.cron',
