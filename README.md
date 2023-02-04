@@ -8,19 +8,15 @@ Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务
 
 本插件有较多定时任务功能，且多数不会向控制台输出执行日志，建议拥有以下技能：
 
-* <font color='#ef4517'>知道看完本文再提问</font>
+* **<font color='#ef4517'>知道看完本文再提问</font>**
+* 学会正常使用搜索引擎
+* 知道如何利用工具修改文件
+* 拥有义务教育阶段要求的知识水平
+* 对于Yunzai有一定的了解，有基础的代码辨识能力
 
-* 知道如何利用文本工具修改文件
+如果没有以上技能，请立刻停止插件安装并关闭浏览器。
 
-* 可能需要义务教育要求的阅读理解水平
-* 可能需要义务教育要求的语文理解水平
-* 需要认识26个字母并学会如何翻译它们
-* 对于Yunzai有一定的了解，有一定的错误排查能力
-* 有基础的代码辨识能力，比如什么是True，什么是False
-
-如果没有以上技能，十分不建议你安装该插件，请立刻停止插件安装并关闭浏览器。
-
-如果你有以上技能，以下内容经过你独立浏览后，不应该再出现疑问，否则请咨询相关人士或充分提出ISSUE了解后再尝试安装。
+如果你有以上技能，浏览以下内容后，不应再出现疑问。否则， 请咨询当地医院是否患有潜在脑疾。
 
 ### 使用说明
 
@@ -30,10 +26,14 @@ Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务
 
 使用github方式获取
 
-> git clone --depth=1 https://github.com/Nwflower/auto-plugin.git ./plugins/auto-plugin/
+```
+git clone --depth=1 https://github.com/Nwflower/auto-plugin.git ./plugins/auto-plugin/
+```
 
 如果运行失败，可以使用gitee源
-> git clone --depth=1 https://gitee.com/Nwflower/auto-plugin.git ./plugins/auto-plugin/
+```
+git clone --depth=1 https://gitee.com/Nwflower/auto-plugin.git ./plugins/auto-plugin/
+```
 
 ### 功能列表
 
@@ -42,7 +42,8 @@ Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务
 | 命令               | 说明                                                         |
 | :----------------- | :----------------------------------------------------------- |
 | 自动更新签名       | 通过获取一言接口改变签名。启用时请注意：由于oicq框架限制会同步发说说，第一次使用请手机登录QQ发一条签名，并手动勾选：不同步到说说。默认关闭。 |
-| 插件全部自动更新   | 在凌晨2-4点之间某一刻自动更新全部插件并重启。保存日志到当日8点再发送。 |
+| 自动发说说         | 发说说，涨权重，一直发说说，一直涨权重。上面那一个功能不配置时会自动发签名和说说。 |
+| 插件全部自动更新   | 在凌晨2-4点之间某一刻自动更新全部插件并重启。保存日志到当日8点再发送。也可以在配置中设置其他发送时间。 |
 | 恶意at自动踢群     | 非管理员如果一次at人数大于10，且超过群人数的80%就直接t掉。有效gank群友召唤术。 |
 | 群名片小尾巴       | FLOWER-PLUGIN的内存更新群名片上位功能，支持多种小尾巴展示和多样化自定义。默认关闭。 |
 | 自动更新米游社攻略 | 每周六凌晨4-6点之间某一刻更新米游社攻略图，也可以手动更新。命令:更新全部攻略、更新全部攻略2 |
@@ -51,7 +52,7 @@ Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务
 
 |            文件名 |   功能名称   | 示例后缀                      |
 | ----------------: | :----------: | ----------------------------- |
-| GenshinVersionDay |  原神倒计时  | 离原神3.4还有25天1小时17分钟  |
+| GenshinVersionDay |  **原神倒计时**  | 离原神3.4还有25天1小时17分钟 |
 |          hitokoto |     一言     | 持道而修，不可议其。          |
 |     MemoryPercent |   内存占用   | 当前系统活力81.08%            |
 |      MonthMassage |   月消息数   | 本月已发送30000条消息         |
@@ -116,9 +117,9 @@ A：你可以[提出issue](https://github.com/Nwflower/auto-plugin/issues)或者
 
 | 插件名                | 插件地址                                                  |
 | --------------------- | --------------------------------------------------------- |
-| 抽卡插件Flower-plugin | [flower-plugin](https://gitee.com/Nwflower/flower-plugin) |
+| 抽卡插件Flower-plugin | [Flower-plugin](https://gitee.com/Nwflower/flower-plugin) |
 | Atlas原神图鉴         | [Atlas](https://gitee.com/Nwflower/atlas)                 |
-| 自动化插件auto-plugin | [auto-plugin](https://gitee.com/Nwflower/auto-plugin)     |
+| 自动化插件auto-plugin | [Auto-plugin](https://gitee.com/Nwflower/auto-plugin)     |
 
 ##### 友情提示
 
