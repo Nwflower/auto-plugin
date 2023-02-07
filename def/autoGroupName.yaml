@@ -1,5 +1,5 @@
 # 功能是否启用 TRUE-启用 FALSE-禁用
-enable: false
+enable: true
 
 # 插件定时表达式
 cron: "40 * * * * ? "
