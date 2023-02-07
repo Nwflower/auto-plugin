@@ -48,6 +48,11 @@ export function supportGuoba () {
         bottomHelpMessage: '是否启用该功能',
         component: 'Switch'
       },{
+        field: 'autoRecallMsg.enable',
+        label: '自动全局撤回',
+        bottomHelpMessage: '是否启用该功能',
+        component: 'Switch'
+      },{
         field: 'autoGroupName.cron',
         label: '群名片更新cron',
         bottomHelpMessage: '群名片更新的定时表达式。不会写可以百度"cron定时表达式"',
@@ -123,8 +128,18 @@ export function supportGuoba () {
         componentProps: {
           placeholder: '请输入定时表达式',
         },
+      },{
+        field: 'autoRecallMsg.time',
+        label: '自动全局撤回时间',
+        bottomHelpMessage: '全局撤回的时间，单位为秒',
+        component: 'InputNumber',
+        required: true,
+        componentProps: {
+          min: 0,
+          max: 1000,
+          placeholder: '请输入时间'
+        }
       }],
-
       getConfigData () {
         return setting.merge()
       },
