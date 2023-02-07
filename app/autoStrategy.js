@@ -11,7 +11,7 @@ import setting from "../model/setting.js";
 export class autoStrategy extends plugin {
   constructor () {
     super({
-      name: '自动更新米游社攻略',
+      name: '自动化插件_更新米游社攻略',
       dsc: '自动更新米游社攻略图',
       event: 'message',
       priority: 499,

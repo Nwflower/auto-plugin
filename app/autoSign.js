@@ -5,7 +5,7 @@ import setting from "../model/setting.js";
 export class autoSign extends plugin {
   constructor() {
     super({
-      name: "自动改签名",
+      name: "自动化插件_自动改签名与发说说",
       dsc: "通过一言接口改签名",
       event: "message",
       priority: 4645,

@@ -11,7 +11,7 @@ import { headStyle } from "../model/base.js";
 export class autoGroupName extends plugin {
   constructor() {
     super({
-      name: "自动群名片",
+      name: "自动化插件_群名片模块",
       dsc: "多群展示群名片",
       event: "message",
       priority: 4644,

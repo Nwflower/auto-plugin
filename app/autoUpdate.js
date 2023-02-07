@@ -19,7 +19,7 @@ const { exec, execSync } = require('child_process')
 export class autoUpdate extends plugin {
   constructor () {
     super({
-      name: '自动全部更新',
+      name: '自动化插件_自动更新',
       dsc: '自动更新全部插件并重启',
       event: 'notice',
       priority: 99999,

@@ -8,7 +8,7 @@ export class autoDelAt extends plugin {
       fnc: 'atListen'
     }
     super({
-      name: '恶意at',
+      name: '自动化插件_恶意at',
       dsc: '自动踢掉恶意at全体成员的成员',
       event: 'message.group',
       priority: 10086,

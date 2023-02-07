@@ -1,0 +1,5 @@
+# 功能是否启用 TRUE-启用 FALSE-禁用
+enable: false
+
+# 撤回时间，单位：秒
+time: 110

@@ -11,7 +11,7 @@ export class autoSendUpdateLog extends plugin {
       fnc: "listen"
     }
     super({
-      name: '自动发送更新日志',
+      name: '自动化插件_发送更新日志',
       dsc: '更新全部插件并重启后发送更新日志',
       event: 'message',
       priority: 9999,
