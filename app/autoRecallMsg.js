@@ -28,6 +28,6 @@ export class autoRecallMsg extends plugin {
         at = true
       }
       return await SuperReply(massage, quote, { at: at, recallMsg: recallMsg })
-    }}
+    }
   }
 }
