@@ -20,7 +20,7 @@ export class autoRecallMsg extends plugin {
     let recallMsg = this.appconfig.time
     let SuperReply = this.e.reply;
     this.e.reply = async function (massage, quote, data) {
-      if (data.recallMsg){
+      if (data && data.recallMsg){
         recallMsg = data.recallMsg
       }
       return await SuperReply(massage, quote, { at: data.at, recallMsg: recallMsg })
