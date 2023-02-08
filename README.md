@@ -75,6 +75,10 @@ git clone --depth=1 https://gitee.com/Nwflower/auto-plugin.git ./plugins/auto-pl
 
 日志会攒下来，偶尔性发送，方便你查阅。你也可以设置遇到报错日志立刻发送一次。
 
+#### 指令表（autoCommandHelp）
+
+该功能仅主人可用。自动扫描所有插件并生成关于这些插件的指令表。
+
 ### 群名片小尾巴模块列表
 
 |            文件名 |   功能名称   | 示例后缀                      |
