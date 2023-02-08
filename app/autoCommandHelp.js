@@ -33,6 +33,7 @@ export class autoCommandHelp extends plugin {
       plugins.push([
         `插件名: ${plugin.name}`,
         `插件描述: ${plugin.dsc || '无'}`,
+        `插件优先级: ${plugin.priority || '0'}`,
         `插件正则指令: \n${command.join('\n')|| '无'}`,
       ])
     }
