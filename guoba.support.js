@@ -9,7 +9,7 @@ export function supportGuoba () {
     pluginInfo: {
       name: 'auto-plugin',
       title: '自动化插件',
-      author: '@西北一枝花',
+      author: '@听语惊花',
       authorLink: 'https://github.com/Nwflower',
       link: 'https://github.com/Nwflower/auto-plugin',
       isV3: true,
@@ -51,6 +51,11 @@ export function supportGuoba () {
         field: 'autoRecallMsg.enable',
         label: '自动全局撤回',
         bottomHelpMessage: '是否启用该功能',
+        component: 'Switch'
+      },{
+        field: 'autoSendLog.enable',
+        label: '日志向群输出',
+        bottomHelpMessage: '请先阅读使用帮助，再谨慎开启该功能！',
         component: 'Switch'
       },{
         field: 'autoGroupName.cron',
@@ -139,7 +144,54 @@ export function supportGuoba () {
           max: 1000,
           placeholder: '请输入时间'
         }
-      }],
+      },{
+        field: 'autoSendLog.logGroup',
+        label: '日志输出群号',
+        bottomHelpMessage: '请先阅读使用帮助，再谨慎开启该功能！',
+        component: 'Input',
+        required: true,
+        componentProps: {
+          placeholder: '请输入群号，只能输入一个',
+        },
+      },{
+        field: 'autoSendLog.level',
+        label: '日志输出等级',
+        bottomHelpMessage: '日志输出等级 trace - 1, debug - 2, info - 3, warn - 4, fatal - 5, mark - 6, error - 7',
+        component: 'InputNumber',
+        required: true,
+        componentProps: {
+          min: 0,
+          max: 8,
+          placeholder: '请输入等级'
+        }
+      },{
+        field: 'autoSendLog.errorProtect',
+        label: '日志异常预警',
+        bottomHelpMessage: '遇到error日志立即尝试输出一次',
+        component: 'Switch'
+      },{
+        field: 'autoSendLog.singleLength',
+        label: '单条消息日志长度',
+        bottomHelpMessage: '太长会被风控 建议默认',
+        component: 'InputNumber',
+        required: true,
+        componentProps: {
+          min: 1,
+          max: 25,
+          placeholder: '请输入长度'
+        }
+      },{
+        field: 'autoSendLog.massageLength',
+        label: '单次发送消息数',
+        bottomHelpMessage: '太长懒得翻 太短发送太频繁会被风控 建议默认 为1时不使用转发消息',
+        component: 'InputNumber',
+        required: true,
+        componentProps: {
+          min: 1,
+          max: 99,
+          placeholder: '请输入消息数'
+        }
+      },],
       getConfigData () {
         return setting.merge()
       },

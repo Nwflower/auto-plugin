@@ -1,0 +1,19 @@
+#### 本页配置需要重启才能生效 ####
+# 功能是否启用 TRUE-启用 FALSE-禁用
+enable: false
+
+# 日志输出群号
+logGroup: 0
+
+# 日志输出等级 trace - 1, debug - 2, info - 3, warn - 4, fatal - 5, mark - 6, error - 7
+# 数值越低，输出日志越多
+level: 3
+
+# 遇到error日志立即尝试输出一次 TRUE:输出 FALSE:不输出
+errorProtect: false
+
+# 单条消息日志长度 建议保持默认
+singleLength: 10
+
+# 单次发送消息数 1-100 大于1时使用转发消息发送 不建议设置太低 发送太频繁可能导致机器人被风控
+massageLength: 15
