@@ -1,6 +1,7 @@
 import plugin from "../../../lib/plugins/plugin.js";
 import SendLogMassage from "../model/SendLogMassage.js";
 import setting from "../model/setting.js";
+import chalk from "chalk";
 
 export class autoSendLog extends plugin {
   constructor() {
@@ -52,6 +53,13 @@ export class autoSendLog extends plugin {
         SuperLogger.mark(...arguments)
       }
     }
+    logger.chalk = chalk
+    logger.red = chalk.red
+    logger.green = chalk.green
+    logger.yellow = chalk.yellow
+    logger.blue = chalk.blue
+    logger.magenta = chalk.magenta
+    logger.cyan = chalk.cyan
   }
 
   // 消息压栈
