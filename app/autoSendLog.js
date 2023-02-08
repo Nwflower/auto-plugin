@@ -18,7 +18,7 @@ export class autoSendLog extends plugin {
     let appconfig = setting.getConfig("autoSendLog");
     if (!this.appconfig.enable) { return false; }
     global.SuperLogger = logger
-    let putMassage = (type,extend) =>{ this.putMassage(type,extend)}
+    let putMassage = (type,extend,forceSent) =>{ this.putMassage(type,extend,forceSent)}
     let level = this.appconfig.level
     global.BotLogMassage = []
     global.BotLogMassageArray = []

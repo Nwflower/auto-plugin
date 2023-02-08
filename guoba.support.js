@@ -156,11 +156,11 @@ export function supportGuoba () {
       },{
         field: 'autoSendLog.level',
         label: '日志输出等级',
-        bottomHelpMessage: '日志输出等级 trace - 1, debug - 2, info - 3, warn - 4, fatal - 5, mark - 6, error - 7',
+        bottomHelpMessage: '日志输出等级 trace - 1, debug - 2, info - 3, warn - 4, fatal - 5, mark - 6, error - 7\n输出等级越低，输出日志越多，默认为3',
         component: 'InputNumber',
         required: true,
         componentProps: {
-          min: 0,
+          min: 1,
           max: 8,
           placeholder: '请输入等级'
         }
