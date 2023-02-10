@@ -21,6 +21,7 @@ export class autoSendLog extends plugin {
     let putMassage = (type,extend,forceSent) =>{ this.putMassage(type,extend,forceSent)}
     let level = this.appconfig.level
     global.BotLogMassage = []
+    global.BotLogErrorMassage = []
     global.BotLogMassageArray = []
     global.logger = {
       trace() {
@@ -53,6 +54,7 @@ export class autoSendLog extends plugin {
         SuperLogger.mark(...arguments)
       }
     }
+
     logger.chalk = chalk
     logger.red = chalk.red
     logger.green = chalk.green
@@ -69,27 +71,26 @@ export class autoSendLog extends plugin {
     let minutes = date.getMinutes()
     let seconds = date.getSeconds()
     let massage = `[${hours}:${minutes <10? '0'+minutes : minutes}:${seconds <10? '0'+seconds : seconds}][${type}] ${extend.join(' ')}`
+
     BotLogMassage.push(massage)
-
-    if (forceSent) {
-      // 强制输出
-      BotLogMassageArray.push(BotLogMassage.join('\n'))
-      let MassageArray = BotLogMassageArray
-      global.BotLogMassage = []
-      global.BotLogMassageArray = []
-      return await SendLogMassage.sendForwardMsg(MassageArray)
-    }
-
+    BotLogErrorMassage.push(massage)
     if (BotLogMassage.length >= parseInt(this.appconfig['singleLength'])){
       BotLogMassageArray.push(BotLogMassage.join('\n'))
       global.BotLogMassage = []
     }
-
     if (BotLogMassageArray.length >= parseInt(this.appconfig['massageLength'])){
       let sendMsg = BotLogMassageArray
       global.BotLogMassageArray = []
       return await SendLogMassage.sendForwardMsg(sendMsg)
     }
+    if (BotLogErrorMassage.length > 5) {
+      BotLogErrorMassage.shift()
+    }
+    if (forceSent){
+      // 强制输出
+      return await SendLogMassage.sendForwardMsg([BotLogErrorMassage.join('\n')])
+    }
+
   }
 
 }
