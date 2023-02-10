@@ -73,7 +73,11 @@ export class autoSendLog extends plugin {
 
     // 强行转化字符串
     for (let extendIndex in extend) {
-      extend[extendIndex] = extend[extendIndex].toString()
+      try {
+        extend[extendIndex] = extend[extendIndex].toString()
+      }catch (e) {
+        extend[extendIndex] = '此报错无法转换为字符'
+      }
     }
 
     let massage = `[${hours}:${minutes <10? '0'+minutes : minutes}:${seconds <10? '0'+seconds : seconds}][${type}] ${extend.join(' ')}`

@@ -22,7 +22,7 @@ export class autoSendUpdateLog extends plugin {
     })
     this.task = {
       cron: '0 58 7 * * ?',
-      name: '早晨推送更新消息',
+      name: '自动化插件_早晨推送更新消息',
       fnc: () => this.updataTask()
     }
     this.islog = false

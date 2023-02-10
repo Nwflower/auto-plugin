@@ -38,7 +38,7 @@ export class autoStrategy extends plugin {
     this.oss = '?x-oss-process=image//resize,s_1200/quality,q_90/auto-orient,0/interlace,1/format,jpg'
     this.task = {
       cron: this.appconfig.cron,
-      name: "自动更新默认攻略",
+      name: "自动化插件_更新默认攻略",
       fnc: () => this.UpdateTask(),
     };
   }

@@ -16,7 +16,7 @@ export class autoSign extends plugin {
     });
     this.task = {
       cron: this.appconfig.cron,
-      name: "自动一言签名",
+      name: "自动化插件_签名和说说",
       fnc: () => this.autoSign(),
     };
   }
