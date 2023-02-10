@@ -70,6 +70,12 @@ export class autoSendLog extends plugin {
     let hours = date.getHours();
     let minutes = date.getMinutes()
     let seconds = date.getSeconds()
+
+    // 强行转化字符串
+    for (let extendIndex in extend) {
+      extend[extendIndex] = extend[extendIndex].toString()
+    }
+
     let massage = `[${hours}:${minutes <10? '0'+minutes : minutes}:${seconds <10? '0'+seconds : seconds}][${type}] ${extend.join(' ')}`
 
     BotLogMassage.push(massage)
