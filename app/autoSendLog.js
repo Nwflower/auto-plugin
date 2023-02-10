@@ -88,7 +88,9 @@ export class autoSendLog extends plugin {
     }
     if (forceSent){
       // 强制输出
-      return await SendLogMassage.sendForwardMsg([BotLogErrorMassage.join('\n')])
+      let array = BotLogErrorMassage
+      global.BotLogErrorMassage = []
+      return await SendLogMassage.sendForwardMsg([array.join('\n')])
     }
 
   }
