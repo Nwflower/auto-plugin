@@ -16,12 +16,15 @@ export class autoRecallMsg extends plugin {
   }
 
   async accept() {
-    if (!this.appconfig.enable) { return false; }
-    let recallMsg = this.appconfig.time
+    let config = this.appconfig
+    if (!config) { return false; }
+    if (!config.enable) { return false; }
+    let recallMsg = config.time
     let SuperReply = this.e.reply;
     let at = false
     this.e.reply = async function (massage , quote = false, data = {}) {
       return await SuperReply(massage, quote, { at, recallMsg, ...data })
     }
+    return false;
   }
 }
