@@ -145,6 +145,19 @@ export function supportGuoba () {
           placeholder: '请输入时间'
         }
       },{
+        field: 'autoRecallMsg.mode',
+        label: '自动撤回模式',
+        bottomHelpMessage: '自动撤回模式选择',
+        component: 'Select',
+        componentProps: {
+          options: [
+            {label: '正常模式：全局撤回', value: 0},
+            {label: '白名单模式：仅配置群撤回', value: 1},
+            {label: '黑名单模式：配置群不撤回', value: 2},
+          ],
+          placeholder: '自动撤回模式选择',
+        },
+      },{
         field: 'autoSendLog.logGroup',
         label: '日志输出群号',
         bottomHelpMessage: '请先阅读使用帮助，再谨慎开启该功能！',

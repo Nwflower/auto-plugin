@@ -19,6 +19,19 @@ export class autoRecallMsg extends plugin {
     let config = this.appconfig
     if (!config) { return false; }
     if (!config.enable) { return false; }
+
+    // 判断模式
+    switch (config.mode) {
+      case 1:
+        if (!config.group.includes(parseInt(this.e.group_id))){ return false }
+        break;
+      case 2:
+        if (config.group.includes(parseInt(this.e.group_id))){ return false }
+        break;
+      default:
+        break;
+    }
+
     let recallMsg = config.time
     let SuperReply = this.e.reply;
     let at = false
