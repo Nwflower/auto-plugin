@@ -158,6 +158,15 @@ export function supportGuoba () {
           placeholder: '自动撤回模式选择',
         },
       },{
+        field: 'autoRecallMsg.group',
+        label: '自动撤回配置群',
+        bottomHelpMessage: '当自动撤回模式为白名单模式或者黑名单模式时才会生效',
+        component: 'GTags',
+        componentProps: {
+          allowAdd: true,
+          allowDel: true,
+        },
+      },{
         field: 'autoSendLog.logGroup',
         label: '日志输出群号',
         bottomHelpMessage: '请先阅读使用帮助，再谨慎开启该功能！',
