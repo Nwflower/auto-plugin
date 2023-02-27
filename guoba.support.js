@@ -5,6 +5,10 @@ import path from 'path'
 
 // 支持锅巴
 export function supportGuoba () {
+
+  let allGroup = [];
+  Bot.gl.forEach((v, k) => { allGroup.push({label: `${v.group_name}(${k})`, value: k}); });
+
   return {
     pluginInfo: {
       name: 'auto-plugin',
@@ -107,6 +111,17 @@ export function supportGuoba () {
           placeholder: '请输入你想显示的内存占用字样',
         },
       },{
+        field: 'autoGroupName.notGroup',
+        label: '群名片更新黑名单',
+        bottomHelpMessage: '不需要更新的群',
+        component: 'Select',
+        componentProps: {
+          allowAdd: true,
+          allowDel: true,
+          mode: 'multiple',
+          options: allGroup,
+        },
+      },{
         field: 'autoSign.cron',
         label: '个签更新cron',
         bottomHelpMessage: '发个签，涨权重；一直发，一直加。',
@@ -174,10 +189,12 @@ export function supportGuoba () {
         field: 'autoRecallMsg.group',
         label: '自动撤回配置群',
         bottomHelpMessage: '当自动撤回模式为白名单模式或者黑名单模式时才会生效',
-        component: 'GTags',
+        component: 'Select',
         componentProps: {
           allowAdd: true,
           allowDel: true,
+          mode: 'multiple',
+          options: allGroup,
         },
       },{
         field: 'autoSendLog.logGroup',
