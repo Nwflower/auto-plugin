@@ -2,11 +2,14 @@ import plugin from "../../../lib/plugins/plugin.js";
 import os from "os";
 import lodash from "lodash";
 import setting from "../model/setting.js";
-import { _path, pluginResources, pluginRoot } from "../model/path.js";
+import { pluginResources, pluginRoot } from "../model/path.js";
 import path from "path";
 import fs from "fs";
 import puppeteer from "../../../lib/puppeteer/puppeteer.js";
 import { headStyle } from "../model/base.js";
+
+let TodoGroup = []
+let SaveSuffix = ''
 
 export class autoGroupName extends plugin {
   constructor() {
@@ -30,7 +33,7 @@ export class autoGroupName extends plugin {
       }],
     });
     this.task = {
-      cron: this.appconfig.cron,
+      cron: this.appConfig.cron,
       name: "自动群名片",
       fnc: () => this.CardTask(),
     };
@@ -38,16 +41,16 @@ export class autoGroupName extends plugin {
   }
 
   // 获取配置单
-  get appconfig() { return setting.getConfig("autoGroupName") }
+  get appConfig() { return setting.getConfig("autoGroupName") }
 
   // 口令设置配置
-  set appconfig(setter) { setting.setConfig("autoGroupName", setter); }
+  set appConfig(setter) { setting.setConfig("autoGroupName", setter); }
 
   // 获取需要执行任务的群组
   get taskGroup() {
     let allGroup = [];
     Bot.gl.forEach((v, k) => { allGroup.push(k); });
-    return lodash.difference(allGroup, this.appconfig.notGroup);
+    return lodash.difference(allGroup, this.appConfig['notGroup']);
   }
 
   // 获取文件名后缀
@@ -76,7 +79,7 @@ export class autoGroupName extends plugin {
   }
 
   // 根据配置获取群名片后缀
-  async getSuffixFun(config = this.appconfig) {
+  async getSuffixFun(config = this.appConfig) {
     // 获取配置中的模块名
     let activeModels = config.active;
     if (!Array.isArray(activeModels)) activeModels = [activeModels];
@@ -109,26 +112,45 @@ export class autoGroupName extends plugin {
       await this.e.reply(`${type}设置方式为: \n#设置名片${type}[*] \n 请将[*]替换为要设置的${type}`)
       return
     }
-    let config = this.appconfig
+    let config = this.appConfig
     if(type === '前缀'){
       config.nickname = str
     }else if(type === '自定义后缀'){
       config.userSuffix = str
     }
-    this.appconfig = config
+    this.appConfig = config
     await this.e.reply(`${type}已设置为: ` + str)
   }
 
   // 定时任务
   async CardTask() {
-    if (!this.appconfig.enable) return false;
-    let taskGroup = this.taskGroup;
-    if (taskGroup.length) {
-      let Suffix = await this.getSuffixFun();
-      for (let groupId of taskGroup) {
-        // 遇到失败情况中止任务执行
-        if (!await this.setGroupCard(groupId, Suffix)) { return false; }
-      }
+    let config = this.appConfig
+    if (!config.enable) return false;
+    switch (config.mode) {
+      case 1:
+        if (!TodoGroup) {
+          TodoGroup= this.taskGroup;
+          SaveSuffix = await this.getSuffixFun();
+        }
+        await this.setGroupCard(TodoGroup.shift(), SaveSuffix)
+        break
+      case 2:
+        if (!TodoGroup) {
+          TodoGroup= this.taskGroup;
+        }
+        let Suffix = await this.getSuffixFun();
+        await this.setGroupCard(TodoGroup.shift(), Suffix)
+        break
+      default:
+        let taskGroup = this.taskGroup;
+        if (taskGroup.length) {
+          let Suffix = await this.getSuffixFun();
+          for (let groupId of taskGroup) {
+            // 遇到失败情况中止任务执行
+            if (!await this.setGroupCard(groupId, Suffix)) { return false; }
+          }
+        }
+        break
     }
     return true;
   }
@@ -137,13 +159,13 @@ export class autoGroupName extends plugin {
   async tabGroupCard() {
     if (!this.e.isMaster) return false;
 
-    if (!this.appconfig.enable) {
+    if (!this.appConfig.enable) {
       this.reply('该功能没有开启。请使用锅巴插件或文本配置工具修改配置文件后以使用该功能')
     }
 
     // 获取配置和模块列表
     let models = fs.readdirSync(path.join(pluginRoot, `model/autoGroupName`)).filter(file => file.endsWith(".js"));
-    let config = this.appconfig
+    let config = this.appConfig
 
     // 对消息进行处理，获取需要更改的模块序号
     let msg = this.e.msg.replace(/^(#|自动化)*(切换|更改|设置)(群)?(名片|昵称)(样式|格式|后缀)/, '').replace(/，/g, ',').replace(/[^(\d|,)]*/g, '').trim()
@@ -158,9 +180,9 @@ export class autoGroupName extends plugin {
       } else {
         for (let index in models) {
           if (config.active === await this.fileExtName(models[index])) {
-            let newindex = Number(Number(index) + 1);
-            if (newindex >= models.length) newindex = 0
-            config.active = await this.fileExtName(models[newindex])
+            let NewIndex = Number(Number(index) + 1);
+            if (NewIndex >= models.length) NewIndex = 0
+            config.active = await this.fileExtName(models[NewIndex])
             break;
           }
         }
@@ -174,14 +196,14 @@ export class autoGroupName extends plugin {
     }
 
     // 保存配置并渲染图片
-    this.appconfig = config
+    this.appConfig = config
     await this.sendTabImage(config)
     return true
   }
 
   // 渲染图片
   async sendTabImage(config) {
-    if (config === undefined) config = this.appconfig
+    if (config === undefined) config = this.appConfig
     let models = fs.readdirSync(path.join(pluginRoot, `model/autoGroupName`)).filter(file => file.endsWith(".js"));
     let TmpModels = []
     for (let model of models) {
@@ -211,7 +233,7 @@ export class autoGroupName extends plugin {
   // 根据所给后缀设置某群的名片
   async setGroupCard(groupID, Suffix) {
     if (!Suffix) return false;
-    let card = `${this.appconfig.nickname || Bot.nickname}｜${Suffix}`
+    let card = `${this.appConfig.nickname || Bot.nickname}｜${Suffix}`
     if (Bot.pickMember(groupID, Bot.uin).card === card) return false
     await Bot.pickGroup(groupID).setCard(Bot.uin, card);
     logger.debug(`【自动化插件】尝试将群${groupID}的群名片更新为${card}`)

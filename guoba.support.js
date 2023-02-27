@@ -67,6 +67,19 @@ export function supportGuoba () {
           placeholder: '请输入定时表达式',
         },
       },{
+        field: 'autoGroupName.mode',
+        label: '群名片更新模式',
+        bottomHelpMessage: '群名片更新模式选择',
+        component: 'Select',
+        componentProps: {
+          options: [
+            {label: '一次性改所有配置的群', value: 0},
+            {label: '每次执行时改一个群，直到改完所有群(后缀一致）', value: 1},
+            {label: '每次执行时都调取后缀，并改一个群，直到改完所有群（这可能会被API提供商制裁）', value: 2},
+          ],
+          placeholder: '自动撤回模式选择',
+        },
+      },{
         field: 'autoGroupName.nickname',
         label: '群名片前缀',
         bottomHelpMessage: '可以留空，默认为昵称',
