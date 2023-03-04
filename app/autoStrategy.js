@@ -130,6 +130,6 @@ export class autoStrategy extends plugin {
     if (!this.appconfig.enable) {
       return true;
     }
-    setTimeout(() => this.this.updateStrategy(this.set.defaultSource), Math.floor(Math.random() * 7199999 + 1))
+    setTimeout(() => this.updateStrategy(this.set.defaultSource), Math.floor(Math.random() * 7199999 + 1))
   }
 }
