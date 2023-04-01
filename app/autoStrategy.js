@@ -8,6 +8,9 @@ import path from "path";
 import { _path } from "../model/path.js";
 import setting from "../model/setting.js";
 
+let packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+const isMiao = packageJson.name === 'miao-yunzai'
+
 export class autoStrategy extends plugin {
   constructor () {
     super({
@@ -21,7 +24,7 @@ export class autoStrategy extends plugin {
       }]
     })
     this.set = gsCfg.getConfig('mys', 'set')
-    this.path = `${_path}/data/strategy`
+    this.path = isMiao?`${_path}/temp/strategy`:`${_path}/data/strategy`
 
     this.url = 'https://bbs-api.mihoyo.com/post/wapi/getPostFullInCollection?&gids=2&order_type=2&collection_id='
     this.collection_id = [
@@ -61,6 +64,7 @@ export class autoStrategy extends plugin {
   }
 
   async updateStrategy (group) {
+
     let roleNames = fs.readdirSync(path.join(this.path, group.toString())).filter(file => file.endsWith(".jpg"));
     for (let roleName of roleNames) {
       this.sfPath = `${this.path}/${group}/${roleName}`

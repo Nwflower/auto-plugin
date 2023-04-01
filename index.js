@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import setting from "./model/setting.js";
 
 logger.info('---------!_!---------')
-logger.info(`自动化插件1.0.2载入成功`)
+logger.info(`自动化插件1.0.3载入成功`)
 const files = fs
   .readdirSync('./plugins/auto-plugin/app')
   .filter((file) => file.endsWith('.js'))
