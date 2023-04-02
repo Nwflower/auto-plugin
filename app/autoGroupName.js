@@ -236,7 +236,7 @@ export class autoGroupName extends plugin {
     let card = `${this.appConfig.nickname || Bot.nickname}｜${Suffix}`
     if (Bot.pickMember(groupID, Bot.uin).card === card) return false
     await Bot.pickGroup(groupID).setCard(Bot.uin, card);
-    logger.debug(`【自动化插件】尝试将群${groupID}的群名片更新为${card}`)
+    //logger.info(card)
     return true;
   }
 }
