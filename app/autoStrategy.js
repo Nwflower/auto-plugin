@@ -119,9 +119,9 @@ export class autoStrategy extends plugin {
       logger.info(`暂无${name}攻略${group}`)
       return false
     }
-    logger.mark(`${this.e.logFnc} 下载${name}攻略图${group}`)
+    logger.mark(`【自动化插件】下载${name}攻略图${group}`)
     if (!await common.downFile(url + this.oss, this.sfPath)) { return false }
-    logger.mark(`${this.e.logFnc} 下载${name}攻略${group}成功`)
+    logger.mark(`【自动化插件】下载${name}攻略${group}成功`)
   }
 
   async getData (url) {
