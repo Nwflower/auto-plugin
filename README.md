@@ -115,6 +115,7 @@ git clone --depth=1 https://gitee.com/Nwflower/auto-plugin.git ./plugins/auto-pl
 |            文件名 |   功能名称   | 示例后缀                      |
 | ----------------: | :----------: | ----------------------------- |
 | GenshinVersionDay |  **原神倒计时**  | 离原神3.4还有25天1小时17分钟 |
+| StarRainVersionDay | 星穹铁道倒计时 | 离崩铁开服还有15天13小时2分钟 |
 |          hitokoto |     一言     | 持道而修，不可议其。          |
 |     MemoryPercent |   内存占用   | 当前系统活力81.08%            |
 |      MonthMassage |   月消息数   | 本月已发送30000条消息         |
@@ -127,7 +128,7 @@ git clone --depth=1 https://gitee.com/Nwflower/auto-plugin.git ./plugins/auto-pl
 |          抖音热搜 | 抖音热搜第一 | 白肺的一个明显表现是气紧      |
 |       userSuffix | 用户自定义尾巴 | 真名，肚饿真君              |
 
-模块路径：auto-plugin\model\autoGroupName文件夹，可以根据12个示例自行开发新模块。
+模块路径：auto-plugin\model\autoGroupName文件夹，可以根据13个示例自行开发新模块。
 
 样式切换口令：
 
