@@ -1,9 +1,7 @@
 import plugin from "../../../lib/plugins/plugin.js";
 import PluginsLoader from "../../../lib/plugins/loader.js";
 import schedule from "node-schedule";
-import util from "node:util";
 import loader from "../../../lib/plugins/loader.js";
-import { Message } from "icqq";
 
 export class autoCommand extends plugin {
   constructor() {
