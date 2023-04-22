@@ -117,7 +117,7 @@ git clone --depth=1 https://gitee.com/Nwflower/auto-plugin.git ./plugins/auto-pl
 |            文件名 |   功能名称   | 示例后缀                      |
 | ----------------: | :----------: | ----------------------------- |
 | GenshinVersionDay |  **原神倒计时**  | 离原神3.4还有25天1小时17分钟 |
-| StarRainVersionDay | 星穹铁道倒计时 | 离崩铁开服还有15天13小时2分钟 |
+| StarRailVersionDay | 星穹铁道倒计时 | 离崩铁开服还有15天13小时2分钟 |
 |          hitokoto |     一言     | 持道而修，不可议其。          |
 |     MemoryPercent |   内存占用   | 当前系统活力81.08%            |
 |      MonthMassage |   月消息数   | 本月已发送30000条消息         |
