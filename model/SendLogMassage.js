@@ -22,11 +22,17 @@ class SendLogMassage {
     })}
     let result
     let forwardMsg = await Bot.makeForwardMsg(massage);
-    forwardMsg.data = forwardMsg.data
-      .replace('<?xml version="1.0" encoding="utf-8"?>','<?xml version="1.0" encoding="utf-8" ?>')
-      .replace(/\n/g, '')
-      .replace(/<title color="#777777" size="26">(.+?)<\/title>/g, '___')
-      .replace(/___+/, '<title color="#777777" size="26">请点击查看内容</title>');
+    if (typeof (forwardMsg.data) === 'object') {
+      let detail = forwardMsg.data?.meta?.detail
+      if (detail) {
+        detail.news = [{ text: '请点击查看内容' }]
+      }
+    } else {
+      forwardMsg.data = forwardMsg.data
+        .replace(/\n/g, '')
+        .replace(/<title color="#777777" size="26">(.+?)<\/title>/g, '___')
+        .replace(/___+/, `<title color="#777777" size="26">请点击查看内容</title>`)
+    }
     try{
       result = await Bot.sendGroupMsg(groupID, forwardMsg)
       return result

@@ -81,11 +81,17 @@ export class autoSendUpdateLog extends plugin {
     if(!replyMsg) return
     // 以转发消息形式处理
     let forwardMsg = await Bot.makeForwardMsg(replyMsg);
-    forwardMsg.data = forwardMsg.data
-      .replace('<?xml version="1.0" encoding="utf-8"?>','<?xml version="1.0" encoding="utf-8" ?>')
-      .replace(/\n/g, '')
-      .replace(/<title color="#777777" size="26">(.+?)<\/title>/g, '___')
-      .replace(/___+/, '<title color="#777777" size="26">请点击查看内容</title>');
+    if (typeof (forwardMsg.data) === 'object') {
+      let detail = forwardMsg.data?.meta?.detail
+      if (detail) {
+        detail.news = [{ text: '请点击查看内容' }]
+      }
+    } else {
+      forwardMsg.data = forwardMsg.data
+        .replace(/\n/g, '')
+        .replace(/<title color="#777777" size="26">(.+?)<\/title>/g, '___')
+        .replace(/___+/, `<title color="#777777" size="26">请点击查看内容</title>`)
+    }
     await common.relpyPrivate(qq, '主人~自动化插件已帮您更新了全部插件。插件更新日志请您过目……')
     await common.relpyPrivate(qq, forwardMsg)
   }
