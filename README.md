@@ -16,7 +16,11 @@ Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务
 
 如果没有以上技能，请立刻停止插件安装并关闭浏览器。
 
-如果你有以上技能，浏览以下内容后，不应再出现疑问。否则， 请咨询当地医院是否患有潜在脑疾。
+如果你有以上技能，浏览以下内容后，不应再出现疑问。
+
+否则， 请咨询当地医院是否患有潜在脑疾。
+
+如果你对具体的查询流程不太了解，可以[点击这里](https://www.guahao.com/nav)快速预约正规医院挂号。
 
 ### 安装方法
 
@@ -30,7 +34,7 @@ Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务
 git clone --depth=1 https://github.com/Nwflower/auto-plugin.git ./plugins/auto-plugin/
 ```
 
-如果运行失败，可以使用gitee源
+如果您所在的地区网络不是很好，建议使用gitee源
 ```
 git clone --depth=1 https://gitee.com/Nwflower/auto-plugin.git ./plugins/auto-plugin/
 ```
