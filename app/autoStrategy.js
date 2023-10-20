@@ -18,21 +18,21 @@ export class autoStrategy extends plugin {
       dsc: '自动更新米游社攻略图',
       event: 'message',
       priority: 499,
-      rule: [{
+      rule: [{ 
         reg: '^#?更新全部攻略([1-4])?$',
         fnc: 'AutoStrategy'
-      }]
+      }] 
     })
-    this.set = gsCfg.getConfig('mys', 'set')
+    this.set = gsCfg.getConfig('mys', 'set') 
     this.path = isMiao?`${_path}/temp/strategy`:`${_path}/data/strategy`
 
     this.url = 'https://bbs-api.mihoyo.com/post/wapi/getPostFullInCollection?&gids=2&order_type=2&collection_id='
-    this.collection_id = [
+    this.collection_id = [ 
       [],
       // 来源：西风驿站
-      [839176, 839179, 839181, 1180811],
+      [2319292, 2319293, 2319295, 2319296, 2319299, 2319294, 2319298], 
       // 来源：原神观测枢
-      [813033],
+      [813033], 
       // 来源：派蒙喵喵屋
       [341284],
       // 来源：OH是姜姜呀(需特殊处理)
