@@ -6,10 +6,10 @@
 export function NameCardContent () {
   // 星穹铁道版本号
   let Versions = [16, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30]
-  let Index = 0
+  let Index = 3
 
   // 获取持续时间
-  let baseTime = new Date('2023-12-27 10:00:00').getTime()
+  let baseTime = new Date('2024-05-08 10:00:00').getTime()
   let nowTime = new Date().getTime()
   let duringTime = baseTime - nowTime
 
