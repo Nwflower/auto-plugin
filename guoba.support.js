@@ -64,8 +64,8 @@ export function supportGuoba () {
       },{
         field: 'autoGroupName.cron',
         label: '群名片更新cron',
-        bottomHelpMessage: '群名片更新的定时表达式。不会写可以百度"cron定时表达式"',
-        component: 'Input',
+        bottomHelpMessage: '群名片更新的定时表达式"',
+        component: 'EasyCron',
         required: true,
         componentProps: {
           placeholder: '请输入定时表达式',
@@ -114,7 +114,7 @@ export function supportGuoba () {
         field: 'autoGroupName.notGroup',
         label: '群名片更新黑名单',
         bottomHelpMessage: '不需要更新的群',
-        component: 'Select',
+        component: 'GSelectGroup',
         componentProps: {
           allowAdd: true,
           allowDel: true,
@@ -125,7 +125,7 @@ export function supportGuoba () {
         field: 'autoSign.cron',
         label: '个签更新cron',
         bottomHelpMessage: '发个签，涨权重；一直发，一直加。',
-        component: 'Input',
+        component: 'EasyCron',
         required: true,
         componentProps: {
           placeholder: '请输入定时表达式',
@@ -133,8 +133,8 @@ export function supportGuoba () {
       },{
         field: 'autoStrategy.cron',
         label: '攻略更新cron',
-        bottomHelpMessage: '攻略更新的定时表达式。不会写可以百度"cron定时表达式"',
-        component: 'Input',
+        bottomHelpMessage: '攻略更新的定时表达式',
+        component: 'EasyCron',
         required: true,
         componentProps: {
           placeholder: '请输入定时表达式',
@@ -155,8 +155,8 @@ export function supportGuoba () {
       },{
         field: 'autoUpdate.cron',
         label: '自动更新cron',
-        bottomHelpMessage: '插件定时cron表达式 默认表达式每日凌晨2点到4点之前某一刻请求。如果表达式有变更，将在你指定的时间点更新。',
-        component: 'Input',
+        bottomHelpMessage: '插件定时更新，默认表达式每日凌晨2点到4点之前某一刻请求。',
+        component: 'EasyCron',
         required: true,
         componentProps: {
           placeholder: '请输入定时表达式',
@@ -164,13 +164,14 @@ export function supportGuoba () {
       },{
         field: 'autoRecallMsg.time',
         label: '自动全局撤回时间',
-        bottomHelpMessage: '全局撤回的时间，单位为秒',
+        bottomHelpMessage: '全局撤回的时间',
         component: 'InputNumber',
         required: true,
         componentProps: {
           min: 0,
           max: 1000,
-          placeholder: '请输入时间'
+          placeholder: '请输入时间',
+          addonAfter: '秒'
         }
       },{
         field: 'autoRecallMsg.mode',
@@ -189,7 +190,7 @@ export function supportGuoba () {
         field: 'autoRecallMsg.group',
         label: '自动撤回配置群',
         bottomHelpMessage: '当自动撤回模式为白名单模式或者黑名单模式时才会生效',
-        component: 'Select',
+        component: 'GSelectGroup',
         componentProps: {
           allowAdd: true,
           allowDel: true,
@@ -200,7 +201,7 @@ export function supportGuoba () {
         field: 'autoSendLog.logGroup',
         label: '日志输出群号',
         bottomHelpMessage: '请先阅读使用帮助，再谨慎开启该功能！',
-        component: 'Input',
+        component: 'GSelectGroup',
         required: true,
         componentProps: {
           placeholder: '请输入群号，只能输入一个',
@@ -208,15 +209,20 @@ export function supportGuoba () {
       },{
         field: 'autoSendLog.level',
         label: '日志输出等级',
-        bottomHelpMessage: '日志输出等级 trace - 1, debug - 2, info - 3, warn - 4, fatal - 5, mark - 6, error - 7\n输出等级越低，输出日志越多，默认为3',
-        component: 'InputNumber',
-        required: true,
+        component: 'Select',
         componentProps: {
-          min: 1,
-          max: 8,
-          placeholder: '请输入等级'
-        }
-      },{
+        options: [
+            { label: 'trace', value: 1 },
+            { label: 'debug', value: 2 },
+            { label: 'info', value: 3 },
+            { label: 'warn', value: 4 },
+            { label: 'fatal', value: 5 },
+            { label: 'mark', value: 6 },
+            { label: 'error', value: 7 },
+                 ],
+            },
+              },
+              {
         field: 'autoSendLog.errorProtect',
         label: '日志异常预警',
         bottomHelpMessage: '遇到error日志立即尝试输出一次',
