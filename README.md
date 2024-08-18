@@ -4,6 +4,11 @@
 
 Yunzai-Bot V3 的一个小型插件包，主要提供各式各样的定时任务功能和自动监听功能
 
+# 前排提示
+
+感谢您访问该插件！值得一提的是，该插件已停止功能的更新，非必要请勿发起issue，目前仅做部分功能的维护，感谢您的理解！
+(小声bb：时雨怎么跟没接手一样)
+
 ### 前置安装提醒
 
 本插件有较多定时任务功能，且多数不会向控制台输出执行日志，建议拥有以下技能：
@@ -178,7 +183,7 @@ A：你可以[提出issue](https://github.com/Nwflower/auto-plugin/issues)或者
 | 插件名                | 插件地址                                                  |
 | --------------------- | --------------------------------------------------------- |
 | 抽卡插件Flower-plugin | [Flower-plugin](https://gitee.com/Nwflower/flower-plugin) |
-| Atlas原神图鉴         | [Atlas](https://gitee.com/Nwflower/atlas)                 |
+| Atlas图鉴             | [Atlas](https://gitee.com/Nwflower/atlas)                 |
 | 自动化插件auto-plugin | [Auto-plugin](https://gitee.com/Nwflower/auto-plugin)     |
 
 ##### 友情提示
