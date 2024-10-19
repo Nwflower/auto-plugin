@@ -9,7 +9,7 @@ export function NameCardContent() {
     let Index = 0
   
     // 获取持续时间
-    let baseTime = new Date('2024-8-14 10:00:00').getTime()
+    let baseTime = new Date('2024-8-14 15:00:00').getTime()
     let nowTime = new Date().getTime()
     let duringTime = baseTime - nowTime
   
