@@ -1,0 +1,13 @@
+list:
+  - task:
+      enable: true
+      name: "原神日历"
+      desc: "每周日中午10点调用Miao-Plugin-【#日历】"
+      cron: "0 0 10 * * SUN"
+      command: "#日历"
+  - task:
+      enable: true
+      name: "星铁日历"
+      desc: "每周日中午10点调用Miao-Plugin-【*日历】"
+      cron: "0 0 10 * * SUN"
+      command: "*日历"
