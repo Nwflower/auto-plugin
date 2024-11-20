@@ -88,12 +88,13 @@ export class autoCommand extends plugin {
 
   async setECronTask(command, cron) {
     let func = async (a) => await this.getE(a)
-    schedule.scheduleJob(cron, async () => {
+    let job = schedule.scheduleJob(cron, async () => {
       await PluginsLoader.deal(await func(command))
     })
     loader.task.push({
       name:`自动指令调用-【${command}】`,
-      cron
+      cron,
+      job: job
     })
   }
 }
