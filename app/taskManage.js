@@ -1,7 +1,6 @@
 import plugin from "../../../lib/plugins/plugin.js";
 import PluginsLoader from "../../../lib/plugins/loader.js";
 import schedule from "node-schedule";
-import loader from "../../../lib/plugins/loader.js";
 import setting from "../model/setting.js";
 
 /**
@@ -30,16 +29,23 @@ export class taskManage extends plugin {
                     reg: "^#删除任务[0-9]*$",
                     fnc: "deleteTask",
                     permission: "master"
+                },
+                {
+                    reg: "^#(立即|立刻|马上)执行任务[0-9]*$",
+                    fnc: "doJobNow",
+                    permission: "master"
                 }
             ],
         });
     }
 
     // 获取配置
-    get appConfig() {
+    appConfig() {
         let configName = 'taskManage'
         let config = setting.getConfig(configName);
-        this.reply(`读取配置文件失败，请确认[plugins/auto-plugin/def]中是否包含[${configName}.yaml]文件`);
+        if (!config) {
+            this.reply(`读取配置文件失败，请确认[plugins/auto-plugin/def]中是否包含[${configName}.yaml]文件`);
+        }
         return config
     }
 
@@ -49,7 +55,7 @@ export class taskManage extends plugin {
             return this.reply('你没有权限');
         }
 
-        let config = this.appConfig
+        let config = this.appConfig()
         if (!config) {
             return false;
         }
@@ -62,18 +68,18 @@ export class taskManage extends plugin {
                 if (task.enable) {
                     let check = false
                     // 重复添加检查
-                    for (let taskElement of loader.task) {
+                    for (let taskElement of PluginsLoader.task) {
                         // 如果存在群号，以群号+任务名作为真正的任务名
                         if ((group_id + task.name) === taskElement.name) {
                             check = true
-                            this.reply(`添加失败，任务表中已存在【task.name}】，请检查配置文件中task.name是否存在重复`);
+                            this.reply(`添加失败，任务表中已存在【${taskElement.name}】，请检查配置文件中task.name是否存在重复`);
                             break
                         }
                     }
                     if (check) {
                         continue
                     }
-                    await this.setECronTask(this.e, task)
+                    await this.setECronTask(task)
                     await Bot.sleep(1000)
                     this.reply(`已将任务【${task.name}】加入任务列表。关闭您的云崽、计算机或服务器后调用将立刻失效，您也可以使用自动化插件的【任务表】功能管理定时任务。`);
                 }
@@ -99,20 +105,15 @@ export class taskManage extends plugin {
             if (item) {
                 let task = item.task
                 if (task.enable && task.name === taskName) {
-                    let check = false
                     // 重复添加检查
-                    for (let taskElement of loader.task) {
+                    for (let taskElement of PluginsLoader.task) {
                         // 如果存在群号，以群号+任务名作为真正的任务名
                         if ((group_id + task.name) === taskElement.name) {
-                            check = true
                             this.reply(`添加失败，任务表中已存在【${group_id + task.name}】，请检查配置文件中task.name是否存在重复`);
-                            break
+                            return
                         }
                     }
-                    if (check) {
-                        continue
-                    }
-                    await this.setECronTask(this.e, task)
+                    await this.setECronTask(task)
                     this.reply(`已将任务【${task.name}】加入任务列表。关闭您的云崽、计算机或服务器后调用将立刻失效，您也可以使用自动化插件的【任务表】功能管理定时任务。`);
                     return
                 }
@@ -125,7 +126,6 @@ export class taskManage extends plugin {
     async getE(text) {
         return {
             post_type: 'message',
-            group_id: this.e.group_id,
             message_id: this.e.message_id,
             user_id: this.e.user_id,
             time: this.e.time,
@@ -159,7 +159,7 @@ export class taskManage extends plugin {
         }
     }
 
-    async setECronTask(e, task) {
+    async setECronTask(task) {
         let command = task.command;
         let cron = task.cron;
 
@@ -167,8 +167,8 @@ export class taskManage extends plugin {
         let job = schedule.scheduleJob(cron, async () => {
             await PluginsLoader.deal(await func(command))
         })
-        loader.task.push({
-            name: (e.group_id ? e.group_id + '-' : '') + task.name,
+        PluginsLoader.task.push({
+            name: (this.e.group_id ? this.e.group_id + '-' : '') + task.name,
             cron,
             job: job
         })
@@ -176,9 +176,33 @@ export class taskManage extends plugin {
 
     async deleteTask() {
         let index = this.e.msg.toString().replace(/#删除任务/g, '').trim()
-        let val = loader.task[Number(index)]
+        let val = PluginsLoader.task[Number(index)]
+        if (!val) {
+            this.reply(`无此任务代号【${index}】，请检查任务表`)
+            return
+        }
         val.job.cancel()
-        loader.task.splice(index, 1);
+        PluginsLoader.task.splice(index, 1);
         this.reply(`已删除定时任务【${val.name}】！（删除后任务表序号会发生改变，若要删除其他任务，请执行【#任务表】确认任务代号）`)
+    }
+
+    async doJobNow() {
+        if (!this.e.isMaster) {
+            return this.reply('你没有权限');
+        }
+        let index = this.e.msg.toString().replace(/#(立即|立刻|马上)执行任务/g, '').trim()
+        let val = PluginsLoader.task[Number(index)]
+        if (!val) {
+            this.reply(`无此任务代号【${index}】，请检查任务表`)
+            return
+        }
+        val.job.invoke().then(() => {
+            this.reply(`已执行定时任务【${val.name}】`)
+            return true
+        }).catch(e => {
+            logger.error(e)
+            this.reply(`定时任务【${val.name}】执行失败`)
+            return false
+        })
     }
 }
