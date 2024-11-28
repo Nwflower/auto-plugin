@@ -53,6 +53,10 @@ export class autoCommandHelp extends plugin {
     let once = this.e.msg.includes('临时')
     let index = this.e.msg.toString().replace(/#(临时)?取消任务/g,'').trim()
     let val = loader.task[Number(index)]
+    if (!val){
+      this.reply(`无此任务代号【${index}】，请检查任务表`)
+      return
+    }
     if (once){
       val.job.cancelNext()
       this.reply(`已取消定时任务【${val.name}】的下一次调用`)

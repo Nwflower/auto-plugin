@@ -1,7 +1,6 @@
 import plugin from "../../../lib/plugins/plugin.js";
 import PluginsLoader from "../../../lib/plugins/loader.js";
 import schedule from "node-schedule";
-import loader from "../../../lib/plugins/loader.js";
 
 export class autoCommand extends plugin {
   constructor() {
@@ -91,7 +90,7 @@ export class autoCommand extends plugin {
     let job = schedule.scheduleJob(cron, async () => {
       await PluginsLoader.deal(await func(command))
     })
-    loader.task.push({
+    PluginsLoader.task.push({
       name:`自动指令调用-【${command}】`,
       cron,
       job: job
