@@ -162,11 +162,12 @@ list:
   - task:
       enable: true
       name: "星铁日历"
-      desc: "每周日中午10点调用Miao-Plugin-【*日历】"
-      cron: "0 0 10 * * SUN"
+      desc: "每周日中午10点零5秒调用Miao-Plugin-【*日历】"
+      cron: "5 0 10 * * SUN"
       command: "*日历"
 ```
-**修改[plugins/auto-plugin/def/taskManage.yaml]后发现首次读取taskManage.yaml文件后发现修改无效：**
+备注：每个任务的cron表达式应该存在一定的执行间隔，yunzai中默认令操作冷却时间为0.5秒，个人操作冷却时间为2秒，如果所有任务同时触发，可能导致后面的任务被限制，建议任务之间间隔2秒以上。  
+**修改[plugins/auto-plugin/def/taskManage.yaml]后发现配置修改无效：**
 首次执行任务管理后，将在[plugins/auto-plugin/config]产生一个同名文件[plugins/auto-plugin/config/taskManage.yaml]，下一次读取配置时将从此文件读取，所以若要修改任务参数，请在[plugins/auto-plugin/config/taskManage.yaml]中修改。暂不支持锅巴插件中修改
 
 指令说明：
@@ -178,6 +179,38 @@ list:
 |               #删除任务               | 拓展了autoCommandHelp.js中的【#取消任务】，现可以删除任务表中的任务<font color="red">（**请谨慎操作，此功能可以删除其他插件的任务**）</font>。用法和【#取消任务】相同，需要先通过【#任务表】命令查询要删除的任务的[任务代号]，假如要删除任务代号8，则输入【#删除任务8】。 | **<font color="red">删除一个任务后，任务表中的任务代号会重新排列</font>，假如你要删除其他任务，每次删除前都应该查询【#任务表】，确认任务代号后再删除，防止误删。删除后的任务无法还原，可以重新通过【#定时指令】或【#单独启动任务（如果是预设过的）】添加** |
 |           #立即/立刻/马上执行任务           | 某些任务执行间隔较长，如果想要立即执行某任务，通过【#任务表】获取到任务的代号，如任务代号3，则主人输入【#立即执行任务3】                                                                                                   |                                                                                                                                               |
 
+#### 自动执行其他插件的指令（autoWebSocketTask）
+经测试发现，如果需要自动跨插件执行其他插件的指令，可以通过模拟一条主人消息，让机器人做出对应的回复。  
+目前模拟主人消息的方式之一是和yunzai之间建立一条新的WebSocket连接，通过本连接发送一条模拟消息给yunzai，其中发送人为yunzai的第一主人，群号可以通过taskManage.yaml指定。  
+此方式基于定时任务管理配置，但与【#批量启动任务】的“被动”添加任务不同，将在yunzai启动时自动将任务添加到任务表，不需要主人再做其他操作即可定时执行其他插件指令。
+- taskManage.yaml配置方式
+```yaml
+# 是否启用WebSocket任务 默认false
+openWS: true
+# openWS开启后，填写应用的WebSocket连接地址（必填） 
+# 此处例子为trss-yunzai的OneBotv11适配器配置形式，具体需要根据自身yunzai配置ws
+ws: 'ws://localhost:2536/OneBotv11'
+
+list:
+  - task:
+      enable: true
+      name: "原神日历"
+      desc: "每周日中午10点调用Miao-Plugin-【#日历】"
+      cron: "0 0 10 * * SUN"
+      command: "#日历"
+      # openWS开启后，群号必填
+      group: 123
+  - task:
+      enable: true
+      name: "星铁日历"
+      desc: "每周日中午10点零5秒调用Miao-Plugin-【*日历】"
+      cron: "5 0 10 * * SUN"
+      command: "*日历"
+      # openWS开启后，群号必填
+      group: 456
+```
+上述配置中，当yunzai启动时，会自动创建【123（群）-原神日历】和【456（群）-星铁日历】任务加入到任务表，并在每周日中午10点新建一条WebSocket连接，模拟主人发送【#日历】指令到机器人。  
+备注：每个任务的cron表达式应该存在一定的执行间隔，yunzai中默认令操作冷却时间为0.5秒，个人操作冷却时间为2秒，如果所有任务同时触发，可能导致后面的任务被限制，建议任务之间间隔2秒以上。极端情况下，可能主人刚好在群里发送了某指令，并与此处的任务同时触发，也可能导致指令受CD限制而没有执行。
 
 
 ### 常见问题Q&A

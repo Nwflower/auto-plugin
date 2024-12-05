@@ -1,3 +1,8 @@
+# 是否启用WebSocket任务 默认false
+openWS: false
+# openWS开启后，填写应用的WebSocket连接地址（必填）
+ws: 'ws://localhost:2536/OneBotv11'
+
 list:
   - task:
       enable: true
@@ -5,9 +10,13 @@ list:
       desc: "每周日中午10点调用Miao-Plugin-【#日历】"
       cron: "0 0 10 * * SUN"
       command: "#日历"
+      # openWS开启后，群号必填
+      group: 123
   - task:
       enable: true
       name: "星铁日历"
       desc: "每周日中午10点调用Miao-Plugin-【*日历】"
       cron: "0 0 10 * * SUN"
       command: "*日历"
+      # openWS开启后，群号必填
+      group: 456

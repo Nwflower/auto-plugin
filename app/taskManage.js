@@ -60,7 +60,7 @@ export class taskManage extends plugin {
             return false;
         }
         let taskList = config.list
-
+        let logArray = []
         let group_id = this.e.group_id ? this.e.group_id + '-' : ''
         for (let item of taskList) {
             if (item) {
@@ -72,7 +72,7 @@ export class taskManage extends plugin {
                         // 如果存在群号，以群号+任务名作为真正的任务名
                         if ((group_id + task.name) === taskElement.name) {
                             check = true
-                            this.reply(`添加失败，任务表中已存在【${taskElement.name}】，请检查配置文件中task.name是否存在重复`);
+                            logArray.push(`添加失败，任务表中已存在【${taskElement.name}】，请检查配置文件中task.name是否存在重复`);
                             break
                         }
                     }
@@ -81,9 +81,23 @@ export class taskManage extends plugin {
                     }
                     await this.setECronTask(task)
                     await Bot.sleep(1000)
-                    this.reply(`已将任务【${task.name}】加入任务列表。关闭您的云崽、计算机或服务器后调用将立刻失效，您也可以使用自动化插件的【任务表】功能管理定时任务。`);
+                    logArray.push(`已将任务【${group_id + task.name}】加入任务列表。关闭您的云崽、计算机或服务器后调用将立刻失效，您也可以使用自动化插件的【任务表】功能管理定时任务。`);
                 }
             }
+        }
+
+        // 发送任务启动日志
+        if (logArray.length > 0) {
+            let massage = []
+            for (let msg of logArray) {
+                massage.push({
+                    message: msg,
+                    nickname: Bot.nickname,
+                    user_id: Bot.uin
+                })
+            }
+            let forwardMsg = await Bot.makeForwardMsg(massage);
+            await this.reply(forwardMsg)
         }
     }
 
@@ -196,13 +210,17 @@ export class taskManage extends plugin {
             this.reply(`无此任务代号【${index}】，请检查任务表`)
             return
         }
-        val.job.invoke().then(() => {
-            this.reply(`已执行定时任务【${val.name}】`)
-            return true
-        }).catch(e => {
+        try {
+            val.job.invoke().then(() => {
+                this.reply(`已执行定时任务【${val.name}】`)
+                return true
+            }).catch(e => {
+                logger.error(e)
+                this.reply(`定时任务【${val.name}】执行失败`)
+                return false
+            })
+        } catch (e) {
             logger.error(e)
-            this.reply(`定时任务【${val.name}】执行失败`)
-            return false
-        })
+        }
     }
 }
