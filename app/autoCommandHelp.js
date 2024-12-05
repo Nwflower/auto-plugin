@@ -1,6 +1,5 @@
 import plugin from "../../../lib/plugins/plugin.js";
 import loader from "../../../lib/plugins/loader.js";
-import moment from "moment";
 
 export class autoCommandHelp extends plugin {
   constructor() {
@@ -90,7 +89,7 @@ export class autoCommandHelp extends plugin {
   }
 
   leadingZero(number) {
-    return number>10 ? number.toString():('0'+number.toString())
+    return number>=10 ? number.toString():('0'+number.toString())
   }
 
   async sendMessageArray(MessageArray, quote = false, data = {}){
