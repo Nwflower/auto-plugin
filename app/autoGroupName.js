@@ -139,14 +139,14 @@ export class autoGroupName extends plugin {
     if (!config.enable) return false
     switch (config.mode) {
       case 1:
-        if (!TodoGroup) {
+        if (!TodoGroup || TodoGroup.length === 0) {
           TodoGroup = this.taskGroup
           SaveSuffix = await this.getSuffixFun()
         }
         await this.setGroupCard(TodoGroup.shift(), SaveSuffix)
         break
       case 2:
-        if (!TodoGroup) {
+        if (!TodoGroup || TodoGroup.length === 0) {
           TodoGroup = this.taskGroup
         }
         let Suffix = await this.getSuffixFun()
