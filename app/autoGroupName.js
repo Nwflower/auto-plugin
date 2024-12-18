@@ -7,6 +7,7 @@ import path from 'path'
 import fs from 'fs'
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 import { headStyle } from '../model/base.js'
+import PluginsLoader from "../../../lib/plugins/loader.js";
 
 let TodoGroup = []
 let SaveSuffix = ''
@@ -33,13 +34,19 @@ export class autoGroupName extends plugin {
       } // ,{ reg: '打印群名片', fnc: 'sendNameCard' }
       ]
     })
-    this.task = {
-      cron: this.appConfig.cron,
-      name: '自动群名片',
-      fnc: () => this.CardTask()
-    }
     Object.defineProperty(this.task, 'log', { get: () => false })
   }
+
+    async init() {
+        // 功能关闭时，不创建任务，减轻任务表内容
+        if (this.appConfig.enable) {
+            PluginsLoader.task.push({
+                cron: this.appConfig.cron,
+                name: '自动群名片',
+                fnc: () => this.CardTask()
+            })
+        }
+    }
 
   // 开发时使用，立刻打印全部模块提供的群名片
   async sendNameCard () {

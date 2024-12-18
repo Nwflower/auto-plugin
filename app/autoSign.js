@@ -1,6 +1,7 @@
 import plugin from "../../../lib/plugins/plugin.js";
 import fetch from "node-fetch";
 import setting from "../model/setting.js";
+import PluginsLoader from "../../../lib/plugins/loader.js";
 
 export class autoSign extends plugin {
   constructor() {
@@ -14,12 +15,18 @@ export class autoSign extends plugin {
         fnc: "autoSign",
       }],
     });
-    this.task = {
-      cron: this.appconfig.cron,
-      name: "自动化插件_签名和说说",
-      fnc: () => this.autoSign(),
-    };
   }
+
+    async init() {
+        // 功能关闭时，不创建任务，减轻任务表内容
+        if (this.appconfig.enable) {
+            PluginsLoader.task.push({
+                cron: this.appconfig.cron,
+                name: "自动化插件_签名和说说",
+                fnc: () => this.autoSign(),
+            })
+        }
+    }
 
   // 获取配置
   get appconfig () {

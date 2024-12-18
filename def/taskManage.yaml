@@ -2,6 +2,8 @@
 openWS: false
 # openWS开启后，填写应用的WebSocket连接地址（必填）
 ws: 'ws://localhost:2536/OneBotv11'
+# 延迟30秒启动，确保yunzai已连接到协议端，可根据自己实际情况调整（如果你的yunzai在30秒内都无法启动，可以延长这里的延迟时间）
+wsDelayTime: 30
 
 list:
   - task:
