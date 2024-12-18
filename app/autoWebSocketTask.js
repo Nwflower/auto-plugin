@@ -21,10 +21,11 @@ export class autoWebSocketTask extends plugin {
     }
 
     async init() {
-        // 延迟半分钟启动，确保yunzai已连接到协议端，可根据自己实际情况调整（如果你的yunzai半分钟内都无法启动，可以延长这里的延迟时间）
+        // 默认延迟30秒启动，确保yunzai已连接到协议端，可根据自己实际情况调整（如果你的yunzai在30秒内都无法启动，可以在taskManage.yaml中延长这里的延迟时间）
+        let wsDelayTime = this.appConfig.wsDelayTime ? this.appConfig.wsDelayTime : 30
         setTimeout(() => {
             this.startWSTaskBatch()
-        }, 30 * 1000)
+        }, wsDelayTime * 1000)
     }
 
     // 获取配置
@@ -72,10 +73,11 @@ export class autoWebSocketTask extends plugin {
             if (!cfg.bot.online_msg_exp) {
                 return
             }
-            const key = `Yz:loginMsg:${Bot.uin}`
+            const key = `Yz:AutoPlugin:WSLog:${Bot.uin}`
             if (await redis.get(key)) {
                 return
             }
+            await redis.set(key, '1', { EX: cfg.bot.online_msg_exp })
             let massage = []
             for (let msg of logArray) {
                 massage.push({

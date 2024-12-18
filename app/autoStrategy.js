@@ -7,6 +7,7 @@ import gsCfg from "../../genshin/model/gsCfg.js";
 import path from "path";
 import { _path } from "../model/path.js";
 import setting from "../model/setting.js";
+import PluginsLoader from "../../../lib/plugins/loader.js";
 
 let packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
 const isMiao = packageJson.name === 'miao-yunzai'
@@ -39,12 +40,18 @@ export class autoStrategy extends plugin {
       [341523]
     ]
     this.oss = '?x-oss-process=image//resize,s_1200/quality,q_90/auto-orient,0/interlace,1/format,jpg'
-    this.task = {
-      cron: this.appconfig.cron,
-      name: "自动化插件_更新默认攻略",
-      fnc: () => this.UpdateTask(),
-    };
   }
+
+    async init() {
+        // 功能关闭时，不创建任务，减轻任务表内容
+        if (this.appconfig.enable) {
+            PluginsLoader.task.push({
+                cron: this.appconfig.cron,
+                name: "自动化插件_更新默认攻略",
+                fnc: () => this.UpdateTask(),
+            })
+        }
+    }
 
   get appconfig () {
     return setting.getConfig("autoStrategy");

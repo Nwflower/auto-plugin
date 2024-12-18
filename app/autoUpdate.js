@@ -4,6 +4,7 @@ import lodash from 'lodash'
 import fs from 'node:fs'
 import common from '../../../lib/common/common.js'
 import setting from "../model/setting.js";
+import PluginsLoader from "../../../lib/plugins/loader.js";
 
 const require = createRequire(import.meta.url)
 const { exec, execSync } = require('child_process')
@@ -28,11 +29,6 @@ export class autoUpdate extends plugin {
     this.key = 'Yz:autoUpdate'
     this.alllog = []
     this.defcron = '0 0 2 * * ?'
-    this.task = {
-      cron: this.appconfig.cron,
-      name: '自动更新全部插件：凌晨2-4点之间某一刻自动执行',
-      fnc: () => this.updataTask()
-    }
   }
 
   get appconfig () {
@@ -40,9 +36,19 @@ export class autoUpdate extends plugin {
   }
 
   async init () {
-    let restart = await redis.get(this.key)
-    if (restart && process.argv[1].includes('pm2')) { this.reply('重启成功') }
-    redis.del(this.key)
+      // 功能关闭时，不创建任务，减轻任务表内容
+      if (this.appconfig.enable) {
+          PluginsLoader.task.push({
+              cron: this.appconfig.cron,
+              name: '自动更新全部插件：凌晨2-4点之间某一刻自动执行',
+              fnc: () => this.updataTask()
+          })
+      }
+      let restart = await redis.get(this.key)
+      if (restart && process.argv[1].includes('pm2')) {
+          this.reply('重启成功')
+      }
+      redis.del(this.key)
   }
 
   async updataTask () {

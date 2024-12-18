@@ -2,7 +2,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import setting from "../model/setting.js";
 import common from "../../../lib/common/common.js";
 import cfg from "../../../lib/config/config.js";
-
+import PluginsLoader from "../../../lib/plugins/loader.js";
 
 export class autoSendUpdateLog extends plugin {
   constructor () {
@@ -20,11 +20,6 @@ export class autoSendUpdateLog extends plugin {
         fnc: "updataLog",
       },rule],
     })
-    this.task = {
-      cron: '0 58 7 * * ?',
-      name: '自动化插件_早晨推送更新消息',
-      fnc: () => this.updataTask()
-    }
     this.islog = false
     Object.defineProperty(rule, 'log', { get: () => this.islog })
   }
@@ -34,6 +29,14 @@ export class autoSendUpdateLog extends plugin {
   }
 
   async init () {
+      // 日志提醒模式为“0-不提醒”时，不创建任务，减轻任务表内容
+      if (this.appconfig.log !== 0) {
+          PluginsLoader.task.push({
+              cron: '0 58 7 * * ?',
+              name: '自动化插件_早晨推送更新消息',
+              fnc: () => this.updataTask()
+          })
+      }
     if (!this.appconfig.remind) {return}
 
     let key = `Yz:loginMsg:${Bot.uin}`
