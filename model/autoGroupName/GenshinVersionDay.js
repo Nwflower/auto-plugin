@@ -5,11 +5,11 @@
  */
 export function NameCardContent() {
   // 原神版本号
-  let Versions = [36, 37, 38, 40, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53, 54, 55, 56, 57, 58, 60]
+  let Versions = [55, 56, 57, 58, 60,61,62,63,64,65,66,67,68,70]
   let Index = 0
 
   // 获取持续时间
-  let baseTime = new Date('2023-4-12 11:00:00').getTime()
+  let baseTime = new Date('2025-3-26 11:00:00').getTime()
   let nowTime = new Date().getTime()
   let duringTime = baseTime - nowTime
 

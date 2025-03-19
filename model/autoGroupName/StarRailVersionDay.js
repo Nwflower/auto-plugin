@@ -4,12 +4,11 @@
  * 禁止以任何形式 二次开源 倒卖 等
  */
 export function NameCardContent () {
-  // 星穹铁道版本号
-  let Versions = [16, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30]
-  let Index = 3
-
+  // 星穹铁道版本号 更新到5.0
+  let Versions = [31,32,33,34,35,36,37,38,40,41,42,43,44,45,46,47,48,50]
+  let Index = 0
   // 获取持续时间
-  let baseTime = new Date('2024-05-08 10:00:00').getTime()
+  let baseTime = new Date('2025-02-26 10:00:00').getTime()
   let nowTime = new Date().getTime()
   let duringTime = baseTime - nowTime
 
