@@ -64,11 +64,11 @@ export function supportGuoba () {
       },{
         field: 'autoGroupName.cron',
         label: '群名片更新cron',
-        bottomHelpMessage: '群名片更新的定时表达式。不会写可以百度"cron定时表达式"',
-        component: 'Input',
+        bottomHelpMessage: '群名片更新的定时表达式。"',
+        component: 'EasyCron',
         required: true,
         componentProps: {
-          placeholder: '请输入定时表达式',
+          placeholder: '请输入或选择定时表达式',
         },
       },{
         field: 'autoGroupName.mode',
@@ -125,19 +125,19 @@ export function supportGuoba () {
         field: 'autoSign.cron',
         label: '个签更新cron',
         bottomHelpMessage: '发个签，涨权重；一直发，一直加。',
-        component: 'Input',
+        component: 'EasyCron',
         required: true,
         componentProps: {
-          placeholder: '请输入定时表达式',
+          placeholder: '请输入或选择定时表达式',
         },
       },{
         field: 'autoStrategy.cron',
         label: '攻略更新cron',
-        bottomHelpMessage: '攻略更新的定时表达式。不会写可以百度"cron定时表达式"',
-        component: 'Input',
+        bottomHelpMessage: '攻略更新的定时表达式。',
+        component: 'EasyCron',
         required: true,
         componentProps: {
-          placeholder: '请输入定时表达式',
+          placeholder: '请输入或选择定时表达式',
         },
       },{
         field: 'autoUpdate.log',
@@ -156,10 +156,10 @@ export function supportGuoba () {
         field: 'autoUpdate.cron',
         label: '自动更新cron',
         bottomHelpMessage: '插件定时cron表达式 默认表达式每日凌晨2点到4点之前某一刻请求。如果表达式有变更，将在你指定的时间点更新。',
-        component: 'Input',
+        component: 'EasyCron',
         required: true,
         componentProps: {
-          placeholder: '请输入定时表达式',
+          placeholder: '请输入或选择定时表达式',
         },
       },{
         field: 'autoRecallMsg.time',
@@ -208,13 +208,20 @@ export function supportGuoba () {
       },{
         field: 'autoSendLog.level',
         label: '日志输出等级',
-        bottomHelpMessage: '日志输出等级 trace - 1, debug - 2, info - 3, warn - 4, fatal - 5, mark - 6, error - 7\n输出等级越低，输出日志越多，默认为3',
-        component: 'InputNumber',
+        bottomHelpMessage: '日志输出等级从低到高排序，输出等级越低，输出日志越多，默认为info',
+        component: 'Select',
         required: true,
         componentProps: {
-          min: 1,
-          max: 8,
-          placeholder: '请输入等级'
+          options: [
+            {label: 'trace', value: 1},
+            {label: 'debug', value: 2},
+            {label: 'info', value: 3},
+            {label: 'warn', value: 4},
+            {label: 'fatal', value: 5},
+            {label: 'mark', value: 6},
+            {label: 'error', value: 7},
+          ],
+          placeholder: '请选择等级',
         }
       },{
         field: 'autoSendLog.errorProtect',
