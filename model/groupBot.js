@@ -5,9 +5,9 @@
  * **随机**返回其中一个 uin（见 TRSS-Yunzai lib/bot.js）。把 `Bot.uin` 直接当作
  * user_id 传给适配器，就会出现「拿 KOOK 的 uin 去操作 QQ 群」这类串台：
  *
- *   uin数组 = [3389512751, "ko_2514911040"]
- *   uin.toJSON = "ko_2514911040"      ← 随机挑中
- *   gl.bot_id  = 3389512751           ← 该群实际所属
+ *   uin数组 = [<bot-uin>, "ko_<kook-bot-id>"]
+ *   uin.toJSON = "ko_<kook-bot-id>"      ← 随机挑中
+ *   gl.bot_id  = <bot-uin>           ← 该群实际所属
  *   → NapCat 返回 {"retcode":1400,"wording":"user_id: expected a positive integer"}
  *
  * 导致自动群名片在多 Bot 环境下 100% 失败。`Bot.gl` 的条目里带 `bot_id`，
