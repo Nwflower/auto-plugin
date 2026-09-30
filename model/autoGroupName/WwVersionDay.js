@@ -1,5 +1,5 @@
 /*
- * 名片更新模块示例：星穹铁道倒计时
+ * 名片更新模块示例：鸣潮倒计时
  * 本更新模块为auto插件的核心功能之一
  * 禁止以任何形式 二次开源 倒卖 等
  *
@@ -8,5 +8,5 @@
 import { getVersionCountdown } from '../gameVersion.js'
 
 export async function NameCardContent () {
-  return await getVersionCountdown('starrail')
+  return await getVersionCountdown('ww')
 }
